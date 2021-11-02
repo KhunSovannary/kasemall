@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:kasemall/login/login_api_service.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+import 'package:kasemall/otp/otp_api_service.dart';
+import 'package:kasemall/otp/otp_screen.dart';
+// ignore: import_of_legacy_library_into_null_safe
+//import "package:sms_autofill/sms_autofill.dart";
 
 
 class Register extends StatefulWidget {
@@ -12,6 +15,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  OtpCodeRepository getOtp = new OtpCodeRepository();
   TextEditingController _phone = new TextEditingController();
   TextEditingController _fullname = new TextEditingController();
   TextEditingController _password = new TextEditingController();
@@ -94,11 +98,11 @@ class _RegisterState extends State<Register> {
                    if (_confirmpassword.text == _password.text) {
                             /*Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => OTP()));*/
-                            final signCode =
-                                await SmsAutoFill().getAppSignature;
-                            print(signCode);
-                            otpCodeRepository
-                                .getOtpCode(phone: _phoneNumber.text)
+                            /*final signCode =
+                                await SmsAutoFill().getAppSignature;*/
+                            //print(signCode);
+                            
+                            getOtp.getOtpCode(phone: _phone.text)
                                 .then((response) => {
                                       if (!response.status)
                                         {
@@ -115,24 +119,22 @@ class _RegisterState extends State<Register> {
                                       else
                                         {
                                           print(response.data),
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                                  builder: (context) => OTP(
+                                          Get.to(() => OTP(
                                                         phoneNumber:
-                                                            _phoneNumber.text,
+                                                            _phone.text,
                                                         fullName:
-                                                            _fullName.text,
+                                                            _fullname.text,
                                                         password:
                                                             _password.text,
                                                         requestId:
                                                             response.data,
-                                                      ))),
+                                                      )),
                                         }
                                     });
                           } else
                             print("not match");
-                        })
-                  },
+                        },
+                  
                   child: Text("Sign Up")),
             
               //],)
@@ -144,4 +146,30 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.white,
     );
   }
+}
+Future<void> _showMyDialog(BuildContext context, {required String message}) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Login Failed !'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(message),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
