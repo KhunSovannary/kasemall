@@ -5,7 +5,7 @@ import 'package:kasemall/register/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+ // const Login(key) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();

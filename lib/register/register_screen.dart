@@ -3,12 +3,11 @@ import 'package:get/route_manager.dart';
 import 'package:kasemall/login/login_api_service.dart';
 import 'package:kasemall/otp/otp_api_service.dart';
 import 'package:kasemall/otp/otp_screen.dart';
-// ignore: import_of_legacy_library_into_null_safe
-//import "package:sms_autofill/sms_autofill.dart";
+import 'package:sms_autofill/sms_autofill.dart';
 
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  //const Register(key) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -98,16 +97,16 @@ class _RegisterState extends State<Register> {
                    if (_confirmpassword.text == _password.text) {
                             /*Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => OTP()));*/
-                            /*final signCode =
-                                await SmsAutoFill().getAppSignature;*/
-                            //print(signCode);
+                            final signCode =
+                                await SmsAutoFill().getAppSignature;
+                            print(signCode);
                             
-                            getOtp.getOtpCode(phone: _phone.text)
+                            getOtp.getOtpCode(_phone.text)
                                 .then((response) => {
                                       if (!response.status)
                                         {
                                           _showMyDialog(context,
-                                              message: response.msg),
+                                               response.msg),
                                           /*else 
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => OTP()))
@@ -147,7 +146,7 @@ class _RegisterState extends State<Register> {
     );
   }
 }
-Future<void> _showMyDialog(BuildContext context, {required String message}) async {
+Future<void> _showMyDialog(BuildContext context, String message) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!

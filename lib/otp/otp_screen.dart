@@ -4,32 +4,32 @@ import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/model/user_model.dart';
 import 'package:kasemall/otp/otp_api_service.dart';
 import 'package:kasemall/register/register_api_service.dart';
-//import 'package:sms_autofill/sms_autofill.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class OTP extends StatefulWidget {
   final String phoneNumber, fullName, password, requestId;
   OTP(
-      {required this.phoneNumber,
-      required this.fullName,
-      required this.password,
-      required this.requestId});
+      {this.phoneNumber,
+      this.fullName,
+      this.password,
+      this.requestId});
 
   @override
   _OTPState createState() => _OTPState();
 }
 
 class _OTPState extends State<OTP> {
-  late String _code = "";
+   String _code = "";
   RegisterRepository register = new RegisterRepository();
   OtpCodeRepository getOtp = new OtpCodeRepository();
 
   final scaffoldKey = GlobalKey();
 
   @override
-  /*void initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    //listenForCode();
+    _listenOtp();
     /*pin1Focus = FocusNode();
     pin2Focus = FocusNode();
     pin3Focus = FocusNode();
@@ -39,7 +39,7 @@ class _OTPState extends State<OTP> {
   @override
   void dispose() {
     // TODO: implement dispose
-    //SmsAutoFill().unregisterListener();
+    SmsAutoFill().unregisterListener();
     super.dispose();
     /*  pin1Focus.dispose();
     pin2Focus.dispose();
@@ -50,7 +50,7 @@ class _OTPState extends State<OTP> {
     pin3.dispose();
     pin4.dispose();
   }*/
-  }*/
+  }
 
   
   Widget build(BuildContext context) {
@@ -96,16 +96,16 @@ class _OTPState extends State<OTP> {
                   SizedBox(height: 10),
                   Text("A code has been sent to "),
                   Text("${hidePhoneNumber(widget.phoneNumber)}"),
-                  /*Container(
+                  Container(
                     padding: const EdgeInsets.all(10),
-                    child: //PinFieldAutoFill(
+                    child: PinFieldAutoFill(
                         currentCode: _code,
                         codeLength: 4,
                         onCodeChanged: (code) {
-                          if (code!.length == 4) {
+                          if (_code.length != 4) {
                             FocusScope.of(context).requestFocus(FocusNode());
                           }
-                        }),*/
+                        }),
 
                     /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -118,9 +118,9 @@ class _OTPState extends State<OTP> {
                     ),
                   ),*/
                 
-                  /*TextFieldPinAutoFill(
+                 /* TextFieldPinAutoFill(
                     currentCode: _code,
-                  ),*/
+                  ),*/),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: Row(
@@ -135,7 +135,7 @@ class _OTPState extends State<OTP> {
                           textColor: Colors.white,
                           onPressed: () {
                             getOtp
-                                .getOtpCode(phone: widget.phoneNumber)
+                                .getOtpCode(widget.phoneNumber)
                                 .then((response) => {
                                       if (!response.status)
                                         {print("failed")}
@@ -151,13 +151,13 @@ class _OTPState extends State<OTP> {
                           ),
                           color: Colors.green,
                           textColor: Colors.white,
-                          onPressed: () {/*
-                            if (code != null) {
+                          onPressed: () {
+                            if (_code != null) {
                               Map<String, dynamic> data = user(
                                   widget.fullName,
                                   widget.password,
                                   widget.phoneNumber,
-                                  code,
+                                  _code,
                                   widget.requestId);
                               print(data);
                               register.register(data).then((response) => {
@@ -172,7 +172,7 @@ class _OTPState extends State<OTP> {
                             } else {
                               Navigator.pop(context);
                             }
-                          */
+                          
                           },
                         ),
                       ],
@@ -198,4 +198,7 @@ String hidePhoneNumber(String phone) {
   }
 
   return newNumber;
+}
+void _listenOtp() async {
+  await SmsAutoFill().listenForCode;
 }

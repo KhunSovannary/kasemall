@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:kasemall/login/login_screen.dart';
+import 'package:kasemall/shopping/shopping_screen.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  //MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final String title;
+  String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

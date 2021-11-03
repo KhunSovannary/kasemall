@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(
         primarySwatch: Colors.green,
       ),),
-      home: MyHomePage(title: 'Kase Mall'),
+      home: MyHomePage(),
     );
   }
 }
