@@ -8,18 +8,14 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 class OTP extends StatefulWidget {
   final String phoneNumber, fullName, password, requestId;
-  OTP(
-      {this.phoneNumber,
-      this.fullName,
-      this.password,
-      this.requestId});
+  OTP({this.phoneNumber, this.fullName, this.password, this.requestId});
 
   @override
   _OTPState createState() => _OTPState();
 }
 
 class _OTPState extends State<OTP> {
-   String _code = "";
+  String _code = "";
   RegisterRepository register = new RegisterRepository();
   OtpCodeRepository getOtp = new OtpCodeRepository();
 
@@ -52,60 +48,57 @@ class _OTPState extends State<OTP> {
   }*/
   }
 
-  
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(
-            child: Text(
-              "OTP Verification",
-              style: TextStyle(
-                  color: Colors.green[500],
-                  fontSize: 29,
-                  fontWeight: FontWeight.bold),
-            ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            "OTP Verification",
+            style: TextStyle(
+                color: Colors.green[500],
+                fontSize: 29,
+                fontWeight: FontWeight.bold),
           ),
-          elevation: 0,
-          backgroundColor: Colors.white,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.lock_rounded,
-                    color: Colors.green,
-                    size: 80,
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+            width: double.infinity,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.lock_rounded,
+                  color: Colors.green,
+                  size: 80,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Please enter the one time password to verify your account",
+                  style: TextStyle(
+                    color: Colors.green[400],
+                    fontSize: 20,
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Please enter the one time password to verify your account",
-                    style: TextStyle(
-                      color: Colors.green[400],
-                      fontSize: 20,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  Text("A code has been sent to "),
-                  Text("${hidePhoneNumber(widget.phoneNumber)}"),
-                  Container(
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                Text("A code has been sent to "),
+                Text("${hidePhoneNumber(widget.phoneNumber)}"),
+                Container(
                     padding: const EdgeInsets.all(10),
                     child: PinFieldAutoFill(
-                        currentCode: _code,
                         codeLength: 4,
-                        onCodeChanged: (code) {
-                          if (_code.length != 4) {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          }
-                        }),
+                        onCodeChanged: (val) {
+                          print(val);
+                          _code = val;
+                        })
 
                     /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,70 +110,71 @@ class _OTPState extends State<OTP> {
                       ],
                     ),
                   ),*/
-                
-                 /* TextFieldPinAutoFill(
+
+                    /* TextFieldPinAutoFill(
                     currentCode: _code,
-                  ),*/),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        RaisedButton(
-                          child: Text(
-                            "Resend",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          color: Colors.red,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            getOtp
-                                .getOtpCode(widget.phoneNumber)
-                                .then((response) => {
-                                      if (!response.status)
-                                        {print("failed")}
-                                      else
-                                        print("resend succeeded.")
-                                    });
-                          },
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Confirm",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          color: Colors.green,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            if (_code != null) {
-                              Map<String, dynamic> data = user(
-                                  widget.fullName,
-                                  widget.password,
-                                  widget.phoneNumber,
-                                  _code,
-                                  widget.requestId);
-                              print(data);
-                              register.register(data).then((response) => {
-                                    if (!response.status)
-                                      {
-                                        print(response.status),
-                                        print("error"),
-                                      }
-                                    else
-                                      {Get.to(() => Login())}
-                                  });
-                            } else {
-                              Navigator.pop(context);
-                            }
-                          
-                          },
-                        ),
-                      ],
+                  ),*/
                     ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        child: Text(
+                          "Resend",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          getOtp
+                              .getOtpCode(widget.phoneNumber)
+                              .then((response) => {
+                                    if (!response.status)
+                                      {print("failed")}
+                                    else
+                                      print("resend succeeded.")
+                                  });
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text(
+                          "Confirm",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        color: Colors.green,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          if (_code != null) {
+                            Map<String, dynamic> data = user(
+                                widget.fullName,
+                                widget.password,
+                                widget.phoneNumber,
+                                _code,
+                                widget.requestId);
+                            print(data);
+                            register.register(data).then((response) => {
+                                  if (!response.status)
+                                    {
+                                      print(response.status),
+                                      print("error"),
+                                    }
+                                  else
+                                    {Get.to(() => Login())}
+                                });
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              )),
-        ),);
+                ),
+              ],
+            )),
+      ),
+    );
   }
 }
 
@@ -199,6 +193,7 @@ String hidePhoneNumber(String phone) {
 
   return newNumber;
 }
+
 void _listenOtp() async {
   await SmsAutoFill().listenForCode;
 }

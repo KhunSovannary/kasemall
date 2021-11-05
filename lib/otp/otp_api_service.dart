@@ -13,6 +13,7 @@ class OtpCodeRepository {
         },
         body: jsonEncode(<String, String>{
           'phone': phone,
+          'signature': "pOaAr5M+R3u"
         }),
       );
       return ResponseModel.fromJson(
