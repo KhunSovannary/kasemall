@@ -14,38 +14,60 @@ class Seller extends StatefulWidget {
 
 class _SellerState extends State<Seller> {
   TextEditingController _shopname = new TextEditingController();
-  String _membership = "Member1";
-  String _supplier = "Seller1";
-  String _cityprovince = "City1";
-  String _district = "District1";
-  String _address = "Address1";
+  String _membership;
+  String _supplier;
+  String _cityprovince;
+  String _district;
+  String _address;
 
   void dropChange(String vaL) {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-            child: Card(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text("${widget.title}",
+            style: TextStyle(fontSize: 20, color: Colors.green)),
+        leading: BackButton(
+          color: Colors.green,
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Card(
+          borderOnForeground: true,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                //Image(image: AssetImage("lib/assets/logo1.jpg")),
                 SizedBox(height: 20),
-                Text("${widget.title}"),
-                SizedBox(height: 15),
+                Text("Shop Information",
+                    style: TextStyle(
+                      fontSize: 17,
+                    )),
+                SizedBox(height: 10),
+                //Image(image: AssetImage("lib/assets/logo1.jpg")),
                 TextFormField(
                   decoration: InputDecoration(
-                    prefix: Icon(Icons.storefront),
+                    border: OutlineInputBorder(),
+
                     hintText: "Shop Name",
+                    prefixIcon: Icon(Icons.store, size: 30),
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
                   ),
                   controller: _shopname,
                 ),
+                SizedBox(height: 10),
                 DropdownButtonFormField(
+                  hint: Text("Memebership"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
-                      prefix: Icon(Icons.people), hintText: "Memebership"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.people),
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
                   value: _membership,
                   items: <String>['Member1', 'Member2']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -55,10 +77,16 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
+                SizedBox(height: 10),
                 DropdownButtonFormField(
+                  hint: Text("Supplier"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
-                      prefix: Icon(Icons.store), hintText: "Supplier"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.store), //hintText: "Supplier",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
                   value: _supplier,
                   items: <String>['Seller1', 'Seller2']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -68,11 +96,17 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
+                SizedBox(height: 10),
                 DropdownButtonFormField(
+                  hint: Text("City/Province"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
-                      prefix: Icon(Icons.location_city),
-                      hintText: "City/Province"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.add_location),
+                    //hintText: "City/Province",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
                   value: _cityprovince,
                   items: <String>['City1', 'City2']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -82,10 +116,17 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
+                SizedBox(height: 10),
                 DropdownButtonFormField(
+                  hint: Text("District"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
-                      prefix: Icon(Icons.location_city), hintText: "District"),
+                    border: OutlineInputBorder(),
+                    prefixIcon:
+                        Icon(Icons.add_location), // hintText: "District",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
                   value: _district,
                   items: <String>['District1', 'District2']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -95,10 +136,17 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                 DropdownButtonFormField(
+                SizedBox(height: 10),
+                DropdownButtonFormField(
+                  hint: Text("Address"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
-                      prefix: Icon(Icons.location_city), hintText: "Address"),
+                    border: OutlineInputBorder(),
+                    prefixIcon:
+                        Icon(Icons.add_location), // hintText: "Address",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
                   value: _address,
                   items: <String>['Address1', 'Address2']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -127,14 +175,14 @@ class _SellerState extends State<Seller> {
                   controller: _address,
                 ),*/
               ]),
-        )),
+        ),
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Done");
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-          Get.back();
+          Get.to(() => Shop());
         },
         child: const Icon(Icons.check),
         backgroundColor: Colors.green,
