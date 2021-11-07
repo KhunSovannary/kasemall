@@ -30,6 +30,7 @@ class _SellerState extends State<Seller> {
   @override
   void initState() {
     super.initState();
+    getProvinces();
   }
 
   void dropChange(String vaL) {}
@@ -43,14 +44,14 @@ class _SellerState extends State<Seller> {
   }
 
   List<Provinces> list = [];
- /* void getListAPI() {
+  /* void getListAPI() {
     Provinces.getData().then((hasil) {
       list = hasil;
       setState(() {});
     });
   }*/
 
- /* List<String> provinces = [];
+  /* List<String> provinces = [];
   void getP() {
     getListAPI();
     for (int i = 0; i < list.length; i++) provinces.add(list[i].name);
@@ -142,8 +143,8 @@ class _SellerState extends State<Seller> {
                     contentPadding: EdgeInsets.all(10),
                   ),
                   value: _cityprovince,
-                  items:
-                      <String>[/*'District1', 'District2'*/].map<DropdownMenuItem<String>>((String value) {
+                  items: <String>[/*'District1', 'District2'*/]
+                      .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       child: Text(value),
                       value: value,
