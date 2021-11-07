@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Provinces {
   final int id;
@@ -25,13 +26,17 @@ class Provinces {
     );
   }
   static Future<Provinces> connectToAPI() async {
-    
+    final sharePreference = await SharedPreferences.getInstance();
+    final token = sharePreference.get('token');
+
     String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
     var apiResult = await http.get(Uri.parse(URLapi), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
+
+    print(token);
     if (apiResult.statusCode == 200) {
       var jsonObject = json.decode(apiResult.body);
       var data = (jsonObject as Map<String, dynamic>)['data'];

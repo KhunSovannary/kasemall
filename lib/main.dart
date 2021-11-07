@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
       title: 'KaseMall',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.green,
-      ),),
+          primarySwatch: Colors.green,
+        ),
+      ),
       home: MyHomePage(),
     );
   }
 }
-
