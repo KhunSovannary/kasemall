@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:kasemall/api_service/api_data.dart';
 import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/shopping/shopping_screen.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+
+import 'package:http/http.dart' as http;
 
 class Seller extends StatefulWidget {
   Seller({key, this.title}) : super(key: key);
@@ -19,9 +27,35 @@ class _SellerState extends State<Seller> {
   String _cityprovince;
   String _district;
   String _address;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void dropChange(String vaL) {}
   @override
+  Provinces province;
+  void getProvinces() {
+    Provinces.connectToAPI().then((hasil) {
+      province = hasil;
+      setState(() {});
+    });
+  }
+
+  List<Provinces> list = [];
+ /* void getListAPI() {
+    Provinces.getData().then((hasil) {
+      list = hasil;
+      setState(() {});
+    });
+  }*/
+
+ /* List<String> provinces = [];
+  void getP() {
+    getListAPI();
+    for (int i = 0; i < list.length; i++) provinces.add(list[i].name);
+  }*/
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -108,8 +142,8 @@ class _SellerState extends State<Seller> {
                     contentPadding: EdgeInsets.all(10),
                   ),
                   value: _cityprovince,
-                  items: <String>['City1', 'City2']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items:
+                      <String>[/*'District1', 'District2'*/].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       child: Text(value),
                       value: value,
@@ -181,8 +215,9 @@ class _SellerState extends State<Seller> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Done");
+          getProvinces();
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-          Get.to(() => Shop());
+          //Get.to(() => Shop());
         },
         child: const Icon(Icons.check),
         backgroundColor: Colors.green,

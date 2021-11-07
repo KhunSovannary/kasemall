@@ -24,6 +24,7 @@ Future logIn(String phoneNumber, String password) async {
     //setState(() {});
 
     sharedPreferences.setString("token", jsonData["data"]["token"]);
+    print(jsonData['data']['token']);
     Get.to(() => Shop());
     // Profile( title: "Welcome to our App"));
     /*Navigator.of(context).pushAndRemoveUntil(
