@@ -31,19 +31,29 @@ class _SellerState extends State<Seller> {
   void initState() {
     super.initState();
     getProvinces();
+
+    print('1');
   }
 
   void dropChange(String vaL) {}
   @override
-  Provinces province;
+  List<Province> provinces = [];
   void getProvinces() {
-    Provinces.connectToAPI().then((hasil) {
-      province = hasil;
-      setState(() {});
+    Province.connectToAPI().then((hasil) {
+      setState(() {
+        provinces = hasil;
+      });
     });
   }
 
-  List<Provinces> list = [];
+  List<District> districts = [];
+  void getDistricts(String p) {
+    District.connectToAPI(p).then((hasil) {
+      setState(() {
+        districts = hasil;
+      });
+    });
+  }
   /* void getListAPI() {
     Provinces.getData().then((hasil) {
       list = hasil;
@@ -113,7 +123,7 @@ class _SellerState extends State<Seller> {
                   }).toList(),
                 ),
                 SizedBox(height: 10),
-                DropdownButtonFormField(
+                /* DropdownButtonFormField(
                   hint: Text("Supplier"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
@@ -131,10 +141,9 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 10),
-                DropdownButtonFormField(
+                SizedBox(height: 10),*/
+                DropdownButtonFormField<String>(
                   hint: Text("City/Province"),
-                  onChanged: dropChange,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.add_location),
@@ -142,17 +151,24 @@ class _SellerState extends State<Seller> {
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(10),
                   ),
-                  value: _cityprovince,
-                  items: <String>[/*'District1', 'District2'*/]
-                      .map<DropdownMenuItem<String>>((String value) {
+                  value: null,
+                  items: provinces
+                      .map<DropdownMenuItem<String>>((Province provinces) {
                     return DropdownMenuItem<String>(
-                      child: Text(value),
-                      value: value,
+                      child: Text(provinces.default_name),
+                      value: "${provinces.id}",
                     );
                   }).toList(),
+                  onChanged: (String val) {
+                    setState(() {
+                      String pro = val;
+                      print(pro);
+                      getDistricts(pro);
+                    });
+                  },
                 ),
                 SizedBox(height: 10),
-                DropdownButtonFormField(
+                DropdownButtonFormField<String>(
                   hint: Text("District"),
                   onChanged: dropChange,
                   decoration: InputDecoration(
@@ -162,12 +178,12 @@ class _SellerState extends State<Seller> {
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(10),
                   ),
-                  value: _district,
-                  items: <String>['District1', 'District2']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  value: null,
+                  items: districts
+                      .map<DropdownMenuItem<String>>((District districts) {
                     return DropdownMenuItem<String>(
-                      child: Text(value),
-                      value: value,
+                      child: Text(districts.default_name),
+                      value: districts.default_name,
                     );
                   }).toList(),
                 ),
@@ -217,6 +233,7 @@ class _SellerState extends State<Seller> {
         onPressed: () {
           print("Done");
           getProvinces();
+          // getDistricts();
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
           //Get.to(() => Shop());
         },

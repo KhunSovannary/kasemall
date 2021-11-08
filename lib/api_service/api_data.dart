@@ -8,29 +8,29 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class Provinces {
+class Province {
   final int id;
   final String name;
   final String default_name;
 
-  Provinces({
+  Province({
     this.id,
     this.name,
     this.default_name,
   });
 
-  factory Provinces.createData(Map<String, dynamic> json) {
-    return Provinces(
+  factory Province.createData(Map<String, dynamic> json) {
+    return Province(
       id: json['id'],
       name: json['name'],
       default_name: json['default_name'],
     );
   }
-  static Future<Provinces> connectToAPI() async {
+  static Future<List<Province>> connectToAPI() async {
     final sharePreference = await SharedPreferences.getInstance();
     final token = sharePreference.get('token');
 
-    //
+    // try
 
     String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
     var apiResult = await http.get(Uri.parse(URLapi), headers: {
@@ -39,15 +39,66 @@ class Provinces {
       'Authorization': 'Bearer $token',
     });
 
-    print(token);
+    print(apiResult.body);
+    print(apiResult.statusCode);
     if (apiResult.statusCode == 200) {
       var jsonObject = json.decode(apiResult.body);
       var data = (jsonObject as Map<String, dynamic>)['data'];
-      return Provinces.createData(data);
+
+      final response = json.decode(apiResult.body);
+      return response['data']['provinces']
+          .map<Province>((json) => Province.createData(json))
+          .toList();
     } else
       print(apiResult.body);
   }
+}
 
+class District {
+  final int id;
+  final String name;
+  final String default_name;
+
+  District({
+    this.id,
+    this.name,
+    this.default_name,
+  });
+
+  factory District.createData(Map<String, dynamic> json) {
+    return District(
+      id: json['id'],
+      name: json['name'],
+      default_name: json['default_name'],
+    );
+  }
+  static Future<List<District>> connectToAPI(String p) async {
+    final sharePreference = await SharedPreferences.getInstance();
+    final token = sharePreference.get('token');
+
+    // try
+
+    String URLapi = 'https://kasefarm1.kasegro.com/api/districts/$p';
+    var apiResult = await http.get(Uri.parse(URLapi), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    print(apiResult.body);
+    print(apiResult.statusCode);
+    if (apiResult.statusCode == 200) {
+      var jsonObject = json.decode(apiResult.body);
+      var data = (jsonObject as Map<String, dynamic>)['data'];
+
+      final response = json.decode(apiResult.body);
+      return response['data']['Districts']
+          .map<District>((json) => District.createData(json))
+          .toList();
+    } else
+      print(apiResult.body);
+  }
+}
   /*static Future<List<Provinces>> getData() async {
     String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
     var apiResult = await http.get(Uri.parse(URLapi), headers: {
@@ -68,4 +119,4 @@ class Provinces {
     else
       print(apiResult.body);
   }*/
-}
+
