@@ -70,6 +70,7 @@ class District {
       id: json['id'],
       name: json['name'],
       default_name: json['default_name'],
+      
     );
   }
   static Future<List<District>> connectToAPI(String p) async {

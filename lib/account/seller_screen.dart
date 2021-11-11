@@ -286,11 +286,31 @@ class _SellerState extends State<Seller> {
                 ),
                 Container(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         FlatButton(
                           onPressed: () {
-                            selectFile();
+                            Get.defaultDialog(
+                                title: 'Select Option',
+                                content: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SimpleDialogOption(
+                                      onPressed: () {
+                                        // Navigator.pop(context, Department.treasury);
+                                      },
+                                      child: const Text('Images'),
+                                    ),
+                                    SimpleDialogOption(
+                                      onPressed: () {
+                                        //Navigator.pop(context, Department.state);
+                                        selectFile();
+                                      },
+                                      child: const Text('Files'),
+                                    ),
+                                  ],
+                                ));
+                            //selectFile();
                             /* File selectedfile =
                                 await FilePicker.getFile(
                                 type: FileType.custom,
@@ -428,12 +448,15 @@ class _SellerState extends State<Seller> {
       //if there is selected file
       selectedfile =
           result.files.map((PlatformFile file) => File(file.path)).toList();
-    }
 
-    setState(() {
-      _filename =
-          result.files.map((PlatformFile file) => basename(file.path)).toList();
-    });
+      setState(() {
+        _filename = result.files
+            .map((PlatformFile file) => basename(file.path))
+            .toList();
+
+        print(selectedfile);
+      });
+    }
     //allowed extension to choose
   }
 }
@@ -441,8 +464,19 @@ class _SellerState extends State<Seller> {
 Widget getFile(List<String> strings) {
   List<Widget> list = new List<Widget>();
   for (var i = 0; i < strings.length; i++) {
-    list.add(
-        new Column(children: [Icon(Icons.file_present), Text(strings[i])]));
+    list.add(new Column(children: [
+      Row(children: [
+        Icon(
+          Icons.file_present,
+          size: 50,
+        ),
+        Expanded(child: Text(strings[i])),
+        SizedBox(
+          height: 10,
+        )
+      ]),
+      SizedBox(height: 5)
+    ]));
   }
   return new Column(children: list);
 }
