@@ -46,6 +46,7 @@ class _LoginState extends State<Login> {
               SizedBox(height: 20),
               TextFormField(
                 controller: _password,
+                obscureText: true,
                 decoration: InputDecoration(
                   hintText: "Password",
                   border: InputBorder.none,

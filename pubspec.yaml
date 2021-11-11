@@ -34,6 +34,11 @@ dependencies:
   sms_autofill: ^1.2.1
   flutter_secure_storage: ^4.2.1
   #otp_autofill: ^1.1.0
+  #dio: ^3.0.8
+  path: ^1.6.4
+  file_picker: ^2.1.7
+  open_file: ^3.2.1
+  path_provider: ^2.0.4
 
 dev_dependencies:
   flutter_test:

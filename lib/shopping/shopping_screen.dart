@@ -73,8 +73,7 @@ class _ShopState extends State<Shop> {
                           InkWell(
                             child: Text("Yes"),
                             onTap: () {
-                               Get.to(() =>
-                                  Seller(title: "Became a seller"));
+                              Get.to(() => Seller(title: "Become a seller"));
                             },
                           ),
                           SizedBox(width: 50),
