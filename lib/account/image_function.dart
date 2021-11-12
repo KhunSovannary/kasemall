@@ -10,23 +10,26 @@ class ImageController extends GetxController {
   var selectedImageSize = ''.obs;
 
   void getImage(ImageSource imageSource) async {
-    final pickedFile = await ImagePicker().getImage(source: imageSource);
-    selectedImagePath.value = pickedFile.path;
-    print(pickedFile.path);
-    print(selectedImagePath.value);
-    if (pickedFile != null) {
-      selectedImagePath.value = pickedFile.path;
-      print(selectedImagePath.value);
+    // it is better to use try catch to prevent error or app crash
+    try {} catch (e) {}
 
-      selectedImageSize.value =
-          ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
-                  .toStringAsFixed(2) +
-              "Mb";
-    } else {
-      Get.snackbar('Error', 'No image selected',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    }
+    // final pickedFile = await ImagePicker().getImage(source: imageSource);
+    // selectedImagePath.value = pickedFile.path;
+    // print(pickedFile.path);
+    // print(selectedImagePath.value);
+    // if (pickedFile != null) {
+    //   selectedImagePath.value = pickedFile.path;
+    //   print(selectedImagePath.value);
+
+    //   selectedImageSize.value =
+    //       ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
+    //               .toStringAsFixed(2) +
+    //           "Mb";
+    // } else {
+    //   Get.snackbar('Error', 'No image selected',
+    //       snackPosition: SnackPosition.BOTTOM,
+    //       backgroundColor: Colors.red,
+    //       colorText: Colors.white);
+    // }
   }
 }

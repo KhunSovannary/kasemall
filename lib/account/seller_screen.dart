@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
-import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
@@ -28,9 +28,15 @@ class Seller extends StatefulWidget {
 }
 
 class _SellerState extends State<Seller> {
+  // this is creating an instance of class 
   ImageController imageController = new ImageController();
+
   TextEditingController _shopname = new TextEditingController();
   List<String> _filename = new List<String>();
+
+  // inject your dependency -> ImageController
+  final imageController1 = Get.put(ImageController());
+
   //String _filename;
   String _membership;
   String _supplier;
@@ -292,7 +298,9 @@ class _SellerState extends State<Seller> {
                       children: [
                         FlatButton(
                           onPressed: () {
-                            imageController.getImage(ImageSource.gallery);
+                            // imageController.getImage(ImageSource.gallery);
+                            imageController1.getImage(ImageSource.gallery);
+
                             /* Get.defaultDialog(
                                 title: 'Select Option',
                                 content: Row(
@@ -352,14 +360,13 @@ class _SellerState extends State<Seller> {
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              
                               /*Image.file(
                                            File(imageController.selectedImagePath.value),
                                           width: double.infinity,
                                           height: 300,
                                               ),*/
-                            
-                                                      // getFile(_filename)
+
+                              // getFile(_filename)
 
                               /*Icon(Icons.file_present),
                               Text("$_filename"),*/
