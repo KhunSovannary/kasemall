@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
+import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
 import 'package:kasemall/login/login_screen.dart';
@@ -8,12 +9,12 @@ import 'package:kasemall/shopping/shopping_screen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+//import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 import 'package:flutter/cupertino.dart';
-
+import 'package:kasemall/account/image_function.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -27,6 +28,7 @@ class Seller extends StatefulWidget {
 }
 
 class _SellerState extends State<Seller> {
+  ImageController imageController = new ImageController();
   TextEditingController _shopname = new TextEditingController();
   List<String> _filename = new List<String>();
   //String _filename;
@@ -290,7 +292,8 @@ class _SellerState extends State<Seller> {
                       children: [
                         FlatButton(
                           onPressed: () {
-                            Get.defaultDialog(
+                            imageController.getImage(ImageSource.gallery);
+                            /* Get.defaultDialog(
                                 title: 'Select Option',
                                 content: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -334,6 +337,7 @@ class _SellerState extends State<Seller> {
 });}
                                 else
                               print("failed");*/
+                          */
                           }
                           /* final result = await FilePicker.platform
                               .pickFiles(allowMultiple: true);
@@ -342,13 +346,20 @@ class _SellerState extends State<Seller> {
                           openFile(result.files);
                           final newFile = await saveFilePermanently(file);*/
                           ,
-                          child: Text("Upload your file here"),
+                          child: Text("Upload your logo here"),
                           color: Colors.green,
                         ),
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              getFile(_filename)
+                              
+                              /*Image.file(
+                                           File(imageController.selectedImagePath.value),
+                                          width: double.infinity,
+                                          height: 300,
+                                              ),*/
+                            
+                                                      // getFile(_filename)
 
                               /*Icon(Icons.file_present),
                               Text("$_filename"),*/
@@ -436,7 +447,7 @@ class _SellerState extends State<Seller> {
 }*/
 
   // void openFiles(List<PlatformFile> files) =>
-  selectFile() async {
+  /*selectFile() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: true,
@@ -479,4 +490,6 @@ Widget getFile(List<String> strings) {
     ]));
   }
   return new Column(children: list);
+}
+*/
 }
