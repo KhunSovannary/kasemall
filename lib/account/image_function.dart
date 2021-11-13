@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //import 'package:file_picker/file_picker.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
 class ImageController extends GetxController {
   var selectedImagePath = ''.obs;
   var selectedImageSize = ''.obs;
 
-  void getPic(ImageSource imageSource) async {
+  /*void getPic(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().getImage(source: imageSource);
     selectedImagePath.value = pickedFile.path;
    
@@ -28,6 +28,6 @@ class ImageController extends GetxController {
             backgroundColor: Colors.red,
             colorText: Colors.white);
       }
-    }
+    }*/
   }
 

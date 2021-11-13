@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
 import 'package:kasemall/login/login_screen.dart';
