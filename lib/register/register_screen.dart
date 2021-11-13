@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 //import 'package:kasemall/login/login_api_service.dart';
 import 'package:kasemall/otp/otp_controller.dart';
 import 'package:kasemall/otp/otp_screen.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 //import 'package:sms_autofill/sms_autofill.dart';
 
 class Register extends StatefulWidget {
@@ -100,6 +101,7 @@ class _RegisterState extends State<Register> {
                       /*final signCode =
                                 await SmsAutoFill().getAppSignature;*/
                       //print(signCode);
+                      //await SmsAutoFill().listenForCode;
 
                       getOtp.getOtpCode(_phone.text).then((response) => {
                             if (!response.status)

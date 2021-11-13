@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'KaseMall',
-      theme: ThemeData(
+      title: 'KaseMall' ,    theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.green,
         ),
