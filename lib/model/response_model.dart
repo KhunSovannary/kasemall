@@ -5,10 +5,10 @@ class ResponseModel {
   dynamic data;
 
   ResponseModel({
-   this.status,
-   this.msg,
-    this.data,
-   this.httpCode
+   required this.status,
+   required this.msg,
+   this.data,
+   required this.httpCode
   });
 
  

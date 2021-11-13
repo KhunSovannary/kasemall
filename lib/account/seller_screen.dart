@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 class Seller extends StatefulWidget {
-  Seller({key, this.title}) : super(key: key);
+  Seller({key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -28,20 +29,22 @@ class Seller extends StatefulWidget {
 }
 
 class _SellerState extends State<Seller> {
-  ImageController imageController = new ImageController();
+  //ImageController imageController = new ImageController();
   TextEditingController _shopname = new TextEditingController();
-  List<String> _filename = new List<String>();
+  List<String>? _filename;
+
+  final imageController = Get.put(ImageController());
   //String _filename;
-  String _membership;
-  String _supplier;
-  Province _cityprovince;
-  String _district;
-  String _address;
-  List<File> selectedfile;
+  String? _membership;
+  String? _supplier;
+  Province? _cityprovince;
+  String?_district;
+  String? _address;
+  List<File>? selectedfile;
   @override
   void initState() {
     super.initState();
-    getProvinces();
+    //getProvinces();
 
     print('1');
   }
@@ -49,7 +52,7 @@ class _SellerState extends State<Seller> {
   void dropChange(String vaL) {}
   @override
   List<Province> provinces = [];
-  void getProvinces() {
+  /*void getProvinces() {
     Province.connectToAPI().then((hasil) {
       setState(() {
         provinces = hasil;
@@ -64,7 +67,7 @@ class _SellerState extends State<Seller> {
         districts = hasil;
       });
     });
-  }
+  }*/
   /* void getListAPI() {
     Provinces.getData().then((hasil) {
       list = hasil;
@@ -135,7 +138,7 @@ class _SellerState extends State<Seller> {
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Memebership"),
-                  onChanged: dropChange,
+                 // onChanged: dropChange,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.people),
@@ -151,7 +154,8 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 7),
+                SizedBox(height: 7),]))])));}}
+                
                 /* DropdownButtonFormField(
                   hint: Text("Supplier"),
                   onChanged: dropChange,
@@ -171,7 +175,8 @@ class _SellerState extends State<Seller> {
                   }).toList(),
                 ),
                 SizedBox(height: 10),*/
-                DropdownButtonFormField<String>(
+
+                /*DropdownButtonFormField<String>(
                   hint: Text("City/Province"),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -196,12 +201,12 @@ class _SellerState extends State<Seller> {
 
                       getDistricts(pro);
                     });
-                  },
-                ),
-                SizedBox(height: 7),
-                DropdownButtonFormField<String>(
+                  },*/
+                
+                //SizedBox(height: 7),
+                /*DropdownButtonFormField(
                   hint: Text("District"),
-                  onChanged: dropChange,
+                  //onChanged: dropChange,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon:
@@ -210,18 +215,18 @@ class _SellerState extends State<Seller> {
                     contentPadding: EdgeInsets.all(10),
                   ),
                   value: null,
-                  items: districts
+                 items: districts
                       .map<DropdownMenuItem<String>>((District districts) {
                     return DropdownMenuItem<String>(
                       child: Text(districts.default_name),
                       value: districts.default_name,
                     );
-                  }).toList(),
-                ),
-                SizedBox(height: 7),
+                  }).toList(),),*/ 
+
+                /*SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Address"),
-                  onChanged: dropChange,
+                  //onChanged: dropChange,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon:
@@ -237,7 +242,7 @@ class _SellerState extends State<Seller> {
                       value: value,
                     );
                   }).toList(),
-                ),
+                ),*/
                 /*TextFormField(
                   decoration: InputDecoration(
                     labelText: "Supplier",
@@ -256,7 +261,7 @@ class _SellerState extends State<Seller> {
                   ),
                   controller: _address,
                 ),*/
-              ]),
+              /*]),
         ),
         Card(
           shape: RoundedRectangleBorder(
@@ -292,7 +297,7 @@ class _SellerState extends State<Seller> {
                       children: [
                         FlatButton(
                           onPressed: () {
-                            imageController.getImage(ImageSource.gallery);
+                            imageController.getPic(ImageSource.gallery);
                             /* Get.defaultDialog(
                                 title: 'Select Option',
                                 content: Row(
@@ -352,14 +357,16 @@ class _SellerState extends State<Seller> {
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              
+                              Obx(()=>imageController.selectedImagePath.value==''?
+                              Text('Select image from gallery'):
+                              Image.file(File(imageController.selectedImagePath.value)))
                               /*Image.file(
                                            File(imageController.selectedImagePath.value),
                                           width: double.infinity,
                                           height: 300,
                                               ),*/
-                            
-                                                      // getFile(_filename)
+
+                              // getFile(_filename)
 
                               /*Icon(Icons.file_present),
                               Text("$_filename"),*/
@@ -438,16 +445,16 @@ class _SellerState extends State<Seller> {
           ),
           Text(
             fileSize,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16),*/
           ),
         ]),
       ),
     );
   }
-}*/
+}
 
   // void openFiles(List<PlatformFile> files) =>
-  /*selectFile() async {
+  selectFile() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: true,
@@ -490,6 +497,4 @@ Widget getFile(List<String> strings) {
     ]));
   }
   return new Column(children: list);
-}
-*/
-}
+}*/

@@ -4,7 +4,7 @@ import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/shopping/shopping_screen.dart';
 
 class Profile extends StatefulWidget {
-  Profile({key, this.title}) : super(key: key);
+  Profile({key, required this.title}) : super(key: key);
 
   final String title;
 

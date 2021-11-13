@@ -6,7 +6,7 @@ import 'package:kasemall/shopping/shopping_screen.dart';
 class MyHomePage extends StatefulWidget {
   //MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  String title;
+  String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

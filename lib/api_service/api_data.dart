@@ -14,9 +14,9 @@ class Province {
   final String default_name;
 
   Province({
-    this.id,
-    this.name,
-    this.default_name,
+    required this.id,
+    required this.name,
+    required this.default_name,
   });
 
   factory Province.createData(Map<String, dynamic> json) {
@@ -26,31 +26,37 @@ class Province {
       default_name: json['default_name'],
     );
   }
-  static Future<List<Province>> connectToAPI() async {
-    final sharePreference = await SharedPreferences.getInstance();
-    final token = sharePreference.get('token');
+}
+  /*static Future<List<Province>> connectToAPI() async {
+      final sharePreference = await SharedPreferences.getInstance();
+      final token = sharePreference.get('token');
 
-    // try
+      // try
+  try{
+      String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
+      var apiResult = await http.get(Uri.parse(URLapi), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
 
-    String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
-    var apiResult = await http.get(Uri.parse(URLapi), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    print(apiResult.body);
-    print(apiResult.statusCode);
-    if (apiResult.statusCode == 200) {
-      var jsonObject = json.decode(apiResult.body);
-      var data = (jsonObject as Map<String, dynamic>)['data'];
-
-      final response = json.decode(apiResult.body);
-      return response['data']['provinces']
-          .map<Province>((json) => Province.createData(json))
-          .toList();
-    } else
       print(apiResult.body);
+      print(apiResult.statusCode);
+      if (apiResult.body != null) {
+        if (apiResult.statusCode == 200) {
+          var jsonObject = json.decode(apiResult.body);
+          var data = (jsonObject as Map<String, dynamic>)['data'];
+
+          final response = json.decode(apiResult.body);
+          return response['data']['provinces']
+              .map<Province>((json) => Province.createData(json))
+              .toList();
+        }
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 }
 
@@ -60,9 +66,9 @@ class District {
   final String default_name;
 
   District({
-    this.id,
-    this.name,
-    this.default_name,
+    required this.id,
+    required this.name,
+    required this.default_name,
   });
 
   factory District.createData(Map<String, dynamic> json) {
@@ -70,7 +76,6 @@ class District {
       id: json['id'],
       name: json['name'],
       default_name: json['default_name'],
-      
     );
   }
   static Future<List<District>> connectToAPI(String p) async {
@@ -93,9 +98,9 @@ class District {
       var data = (jsonObject as Map<String, dynamic>)['data'];
 
       final response = json.decode(apiResult.body);
-      return response['data']['Districts']
+      return response?response['data']['Districts']
           .map<District>((json) => District.createData(json))
-          .toList();
+          .toList():[];
     } else
       print(apiResult.body);
   }
@@ -120,4 +125,4 @@ class District {
     else
       print(apiResult.body);
   }*/
-
+*/

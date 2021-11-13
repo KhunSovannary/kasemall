@@ -4,11 +4,11 @@ import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/model/user_model.dart';
 import 'package:kasemall/otp/otp_api_service.dart';
 import 'package:kasemall/register/register_api_service.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+//import 'package:sms_autofill/sms_autofill.dart';
 
 class OTP extends StatefulWidget {
   final String phoneNumber, fullName, password, requestId;
-  OTP({this.phoneNumber, this.fullName, this.password, this.requestId});
+  OTP({required this.phoneNumber, required this.fullName, required this.password,required this.requestId});
 
   @override
   _OTPState createState() => _OTPState();
@@ -25,7 +25,7 @@ class _OTPState extends State<OTP> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _listenOtp();
+   // _listenOtp();
     /*pin1Focus = FocusNode();
     pin2Focus = FocusNode();
     pin3Focus = FocusNode();
@@ -35,7 +35,7 @@ class _OTPState extends State<OTP> {
   @override
   void dispose() {
     // TODO: implement dispose
-    SmsAutoFill().unregisterListener();
+    //SmsAutoFill().unregisterListener();
     super.dispose();
     /*  pin1Focus.dispose();
     pin2Focus.dispose();
@@ -93,12 +93,12 @@ class _OTPState extends State<OTP> {
                 Text("${hidePhoneNumber(widget.phoneNumber)}"),
                 Container(
                     padding: const EdgeInsets.all(10),
-                    child: PinFieldAutoFill(
+                    /*child: PinFieldAutoFill(
                         codeLength: 4,
                         onCodeChanged: (val) {
                           print(val);
                           _code = val;
-                        })
+                        })*/
 
                     /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -194,6 +194,7 @@ String hidePhoneNumber(String phone) {
   return newNumber;
 }
 
-void _listenOtp() async {
+/*void _listenOtp() async {
   await SmsAutoFill().listenForCode;
 }
+*/

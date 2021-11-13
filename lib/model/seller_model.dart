@@ -47,15 +47,15 @@ class Seller{
   final File logo_image;
   final File cover_image;
 
-  Seller({ this.name, 
-          this.phone, 
-          this.membership_id,
-          this.city_province_id,
-          this.district_id,
-          this.supplier_id,
-          this.address,
-          this.logo_image,
-          this.cover_image,
+  Seller({ required this.name, 
+          required this.phone, 
+          required this.membership_id,
+          required this.city_province_id,
+          required this.district_id,
+          required this.supplier_id,
+          required this.address,
+          required this.logo_image,
+          required this.cover_image,
           });
 
   factory Seller.fromJson(Map<String, dynamic> json) {
@@ -76,12 +76,12 @@ class Seller{
 
 
   FutureBuilder<Seller> buildFutureBuilder() {
-    Future<Seller> _futureSeller;
+    Future<Seller>? _futureSeller;
     return FutureBuilder<Seller>(
       future: _futureSeller,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data.name);
+          return Text(snapshot.data!.name);
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
