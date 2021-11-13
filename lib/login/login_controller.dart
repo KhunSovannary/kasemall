@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:kasemall/homepage/home_screen.dart';
+import 'package:kasemall/shopping/shopping_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
@@ -20,6 +21,7 @@ class LoginController extends GetxController {
       Map<String, dynamic>? jsonData;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
+      sharedPreferences.setString('phone', phoneNumber);
       var response = await http.post(url, body: data);
       print(jsonDecode(response.body));
       if (response.statusCode == 200) {
@@ -30,7 +32,7 @@ class LoginController extends GetxController {
         sharedPreferences.setString("token", jsonData!["data"]["token"]);
         print(jsonData['data']['token']);
 
-        Get.to(() => MyHomePage());
+        Get.to(() => Shop());
       } else
         print(response.body);
       // Profile( title: "Welcome to our App"));

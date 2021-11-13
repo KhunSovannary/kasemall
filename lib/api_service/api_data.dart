@@ -27,36 +27,36 @@ class Province {
     );
   }
 }
-  /*static Future<List<Province>> connectToAPI() async {
-      final sharePreference = await SharedPreferences.getInstance();
-      final token = sharePreference.get('token');
 
-      // try
-  try{
-      String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
-      var apiResult = await http.get(Uri.parse(URLapi), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      });
+Future<List<Province>> connectToAPI() async {
+  final sharePreference = await SharedPreferences.getInstance();
+  final token = sharePreference.get('token');
 
-      print(apiResult.body);
-      print(apiResult.statusCode);
-      if (apiResult.body != null) {
-        if (apiResult.statusCode == 200) {
-          var jsonObject = json.decode(apiResult.body);
-          var data = (jsonObject as Map<String, dynamic>)['data'];
+  // try
+  try {
+    String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
+    var apiResult = await http.get(Uri.parse(URLapi), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
 
-          final response = json.decode(apiResult.body);
-          return response['data']['provinces']
-              .map<Province>((json) => Province.createData(json))
-              .toList();
-        }
+    print(apiResult.body);
+    print(apiResult.statusCode);
+    if (apiResult.body != null) {
+      if (apiResult.statusCode == 200) {
+        var jsonObject = json.decode(apiResult.body);
+        var data = (jsonObject as Map<String, dynamic>)['data'];
+
+        final response = json.decode(apiResult.body);
+        return response!['data']['provinces']
+            .map<Province>((json) => Province.createData(json))
+            .toList();
       }
-    } catch (e) {
-      print(e);
-      rethrow;
     }
+  } catch (e) {
+    print(e);
+    rethrow;
   }
 }
 
@@ -83,26 +83,29 @@ class District {
     final token = sharePreference.get('token');
 
     // try
+    try {
+      String URLapi = 'https://kasefarm1.kasegro.com/api/districts/$p';
+      var apiResult = await http.get(Uri.parse(URLapi), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
 
-    String URLapi = 'https://kasefarm1.kasegro.com/api/districts/$p';
-    var apiResult = await http.get(Uri.parse(URLapi), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    print(apiResult.body);
-    print(apiResult.statusCode);
-    if (apiResult.statusCode == 200) {
-      var jsonObject = json.decode(apiResult.body);
-      var data = (jsonObject as Map<String, dynamic>)['data'];
-
-      final response = json.decode(apiResult.body);
-      return response?response['data']['Districts']
-          .map<District>((json) => District.createData(json))
-          .toList():[];
-    } else
       print(apiResult.body);
+      print(apiResult.statusCode);
+      if (apiResult.statusCode == 200) {
+        var jsonObject = json.decode(apiResult.body);
+        var data = (jsonObject as Map<String, dynamic>)['data'];
+
+        final response = json.decode(apiResult.body);
+        return response!['data']['Districts']
+            .map<District>((json) => District.createData(json))
+            .toList();
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 }
   /*static Future<List<Provinces>> getData() async {
@@ -125,4 +128,4 @@ class District {
     else
       print(apiResult.body);
   }*/
-*/
+

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/profile_screen.dart';
 import 'package:kasemall/account/seller_screen.dart';
+import 'package:kasemall/homepage/home_screen.dart';
+import 'package:kasemall/login/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Shop extends StatefulWidget {
   //const Shop(key) : super(key: key);
@@ -86,7 +89,22 @@ class _ShopState extends State<Shop> {
                           ),
                         ],
                       )),
-                )
+                ),
+                SizedBox(height: 20),
+                Row(children: [
+                  Icon(Icons.logout),
+                  InkWell(
+                    child: Text("Log Out"),
+                    onTap: () {
+                      logoutUser();
+                    },
+                  )
+                ]),
+                InkWell(
+                    child: Text("Back to HomePage"),
+                    onTap: () {
+                      Get.to(() => MyHomePage());
+                    }),
               ],
             ),
           ),
@@ -94,5 +112,11 @@ class _ShopState extends State<Shop> {
         body: Center(
           child: Container(child: Text("Enjoy shopping here")),
         ));
+  }
+
+  void logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('phone');
+    Get.to(() => Login());
   }
 }
