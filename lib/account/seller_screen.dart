@@ -49,7 +49,7 @@ class _SellerState extends State<Seller> {
     print('1');
   }
 
-  void dropChange(String vaL) {}
+ 
   @override
   List<Province> provinces = [];
   /*void getProvinces() {
@@ -58,7 +58,7 @@ class _SellerState extends State<Seller> {
         provinces = hasil;
       });
     });
-  }
+  }*/
 
   List<District> districts = [];
   void getDistricts(String p) {
@@ -67,7 +67,7 @@ class _SellerState extends State<Seller> {
         districts = hasil;
       });
     });
-  }*/
+  }
   /* void getListAPI() {
     Provinces.getData().then((hasil) {
       list = hasil;
@@ -154,11 +154,11 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 7),]))])));}}
+                SizedBox(height: 7),
                 
-                /* DropdownButtonFormField(
+                 DropdownButtonFormField(
                   hint: Text("Supplier"),
-                  onChanged: dropChange,
+                  //onChanged: dropChange,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.store), //hintText: "Supplier",
@@ -174,9 +174,9 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 10),*/
+                SizedBox(height: 10),
 
-                /*DropdownButtonFormField<String>(
+                DropdownButtonFormField<String>(
                   hint: Text("City/Province"),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -193,18 +193,18 @@ class _SellerState extends State<Seller> {
                       value: "${provinces.id}",
                     );
                   }).toList(),
-                  onChanged: (String val) {
+                  /*onChanged: (String val) {
                     setState(() {
                       String pro = val;
                       print(pro);
                       //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
 
                       getDistricts(pro);
-                    });
-                  },*/
+                    });*/
+                  ),
                 
-                //SizedBox(height: 7),
-                /*DropdownButtonFormField(
+                SizedBox(height: 7),
+                DropdownButtonFormField(
                   hint: Text("District"),
                   //onChanged: dropChange,
                   decoration: InputDecoration(
@@ -221,9 +221,9 @@ class _SellerState extends State<Seller> {
                       child: Text(districts.default_name),
                       value: districts.default_name,
                     );
-                  }).toList(),),*/ 
+                  }).toList(),), 
 
-                /*SizedBox(height: 7),
+                SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Address"),
                   //onChanged: dropChange,
@@ -242,7 +242,7 @@ class _SellerState extends State<Seller> {
                       value: value,
                     );
                   }).toList(),
-                ),*/
+                ),
                 /*TextFormField(
                   decoration: InputDecoration(
                     labelText: "Supplier",
@@ -260,44 +260,44 @@ class _SellerState extends State<Seller> {
                     labelText: "Address",
                   ),
                   controller: _address,
-                ),*/
-              /*]),
-        ),
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          // borderOnForeground: true,
-          elevation: 4.0,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      ),
-                      color: Colors.grey[300]),
-                  height: 50,
-                  // color: Colors.grey[300],
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  //color:Colors.green,
-                  child: Text("Upload Required Information",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      )),
                 ),
-                Container(
+              ]),
+        ),*/
+              Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  // borderOnForeground: true,
+                  elevation: 4.0,
                   child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                              color: Colors.grey[300]),
+                          height: 50,
+                          // color: Colors.grey[300],
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          //color:Colors.green,
+                          child: Text("Upload Required Photo",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
                         FlatButton(
                           onPressed: () {
-                            imageController.getPic(ImageSource.gallery);
+                            //imageController.getPic(ImageSource.gallery);
                             /* Get.defaultDialog(
                                 title: 'Select Option',
                                 content: Row(
