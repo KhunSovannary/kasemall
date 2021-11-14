@@ -26,37 +26,36 @@ class Province {
       default_name: json['default_name'],
     );
   }
-}
 
-Future<List<Province>> connectToAPI() async {
-  final sharePreference = await SharedPreferences.getInstance();
-  final token = sharePreference.get('token');
+  static Future<List<Province>?> connectToAPI() async {
+    final sharePreference = await SharedPreferences.getInstance();
+    final token = sharePreference.get('token');
+    // try
+    try {
+      String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
+      var apiResult = await http.get(Uri.parse(URLapi), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
 
-  // try
-  try {
-    String URLapi = 'https://kasefarm1.kasegro.com/api/provinces/1';
-    var apiResult = await http.get(Uri.parse(URLapi), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
+      print(apiResult.body);
+      print(apiResult.statusCode);
+      if (apiResult.body != null) {
+        if (apiResult.statusCode == 200) {
+          var jsonObject = json.decode(apiResult.body);
+          var data = (jsonObject as Map<String, dynamic>)['data'];
 
-    print(apiResult.body);
-    print(apiResult.statusCode);
-    if (apiResult.body != null) {
-      if (apiResult.statusCode == 200) {
-        var jsonObject = json.decode(apiResult.body);
-        var data = (jsonObject as Map<String, dynamic>)['data'];
-
-        final response = json.decode(apiResult.body);
-        return response!['data']['provinces']
-            .map<Province>((json) => Province.createData(json))
-            .toList();
+          final response = json.decode(apiResult.body);
+          return response!['data']['provinces']
+              .map<Province>((json) => Province.createData(json))
+              .toList();
+        }
       }
+    } catch (e) {
+      print(e);
+      rethrow;
     }
-  } catch (e) {
-    print(e);
-    rethrow;
   }
 }
 
@@ -78,13 +77,15 @@ class District {
       default_name: json['default_name'],
     );
   }
-  static Future<List<District>> connectToAPI(String p) async {
+  static Future<List<District>?> connectToAPI(String p) async {
+    String id = '1';
+    if (p != '') id = p;
     final sharePreference = await SharedPreferences.getInstance();
     final token = sharePreference.get('token');
 
     // try
     try {
-      String URLapi = 'https://kasefarm1.kasegro.com/api/districts/$p';
+      String URLapi = 'https://kasefarm1.kasegro.com/api/districts/$id';
       var apiResult = await http.get(Uri.parse(URLapi), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
