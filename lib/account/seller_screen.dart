@@ -65,6 +65,7 @@ class _SellerState extends State<Seller> {
     });
   }
 
+  void dropChange(String? val) {}
   List<District>? districts = [];
   void getDistricts(String p) {
     District.connectToAPI(p).then((hasil) {
@@ -103,12 +104,12 @@ class _SellerState extends State<Seller> {
       body: SingleChildScrollView(
           child: Column(children: [
         Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            // borderOnForeground: true,
-            elevation: 4.0,
-            child: Column(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          // borderOnForeground: true,
+          elevation: 4.0,
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -146,7 +147,7 @@ class _SellerState extends State<Seller> {
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Memebership"),
-                  // onChanged: ,
+                  onChanged: dropChange,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.people),
@@ -166,7 +167,7 @@ class _SellerState extends State<Seller> {
 
                 DropdownButtonFormField(
                   hint: Text("Supplier"),
-                  //onChanged: dropChange,
+                  onChanged: dropChange,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.store), //hintText: "Supplier",
@@ -184,24 +185,6 @@ class _SellerState extends State<Seller> {
                 ),
                 SizedBox(height: 7),
 
-                DropdownButtonFormField(
-                  hint: Text("Supplier"),
-                  //onChanged: dropChange,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.store), //hintText: "Supplier",
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(10),
-                  ),
-                  value: _supplier,
-                  items: <String>['Seller1', 'Seller2']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      child: Text(value),
-                      value: value,
-                    );
-                  }).toList(),
-                ),
                 SizedBox(height: 10),
                 GetX<SellerController>(
                   builder: (controller) {
@@ -223,9 +206,10 @@ class _SellerState extends State<Seller> {
                         );
                       }).toList(),
                       onChanged: (String? val) {
-                        sellerController.getDistricts(val!);
                         setState(() {
-                          String pro = val;
+                          String pro = val!;
+                          sellerController.getDistricts(pro);
+                          //String pro = val;
                           print(pro);
                           //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
                         });
@@ -269,6 +253,7 @@ class _SellerState extends State<Seller> {
                         _district = district;
                       });
                     },
+                    onSaved: (String? val) {},
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon:
@@ -306,7 +291,9 @@ class _SellerState extends State<Seller> {
                     );
                   }).toList(),
                 ),
-                /*TextFormField(
+              ]),
+        ),
+        /*TextFormField(
                   decoration: InputDecoration(
                     labelText: "Supplier",
                   ),
@@ -326,55 +313,53 @@ class _SellerState extends State<Seller> {
                 ),
               ]),
         ),*/
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  // borderOnForeground: true,
-                  elevation: 4.0,
+        Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            // borderOnForeground: true,
+            elevation: 4.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      ),
+                      color: Colors.grey[300]),
+                  height: 50,
+                  // color: Colors.grey[300],
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  //color:Colors.green,
+                  child: Text("Upload Required Photo",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                Container(
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0),
-                              ),
-                              color: Colors.grey[300]),
-                          height: 50,
-                          // color: Colors.grey[300],
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          //color:Colors.green,
-                          child: Text("Upload Required Photo",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              )),
+                      children: [
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text("Upload your logo here"),
+                          color: Colors.green,
                         ),
-                        Container(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                FlatButton(
-                                  onPressed: () {},
-                                  child: Text("Upload your logo here"),
-                                  color: Colors.green,
-                                ),
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Obx(() => imageController
-                                                  .selectedImagePath.value ==
-                                              ''
-                                          ? Text('Select image from gallery')
-                                          : Image.file(File(imageController
-                                              .selectedImagePath.value)))
-                                    ])
-                              ]),
-                        )
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Obx(() => imageController
+                                          .selectedImagePath.value ==
+                                      ''
+                                  ? Text('Select image from gallery')
+                                  : Image.file(File(
+                                      imageController.selectedImagePath.value)))
+                            ]),
                       ]),
                 )
               ],
