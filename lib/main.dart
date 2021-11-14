@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
       ),
-      home: Seller(
-        title: 'Seller',
+      home: MyHomePage(        
       ),
       // home: MyHomePage(),
     );

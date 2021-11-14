@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kasemall/account/controller/seller_controller.dart';
 //import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
@@ -217,33 +218,6 @@ class _SellerState extends State<Seller> {
                     );
                   },
                 ),
-                // DropdownButtonFormField<String>(
-                //   hint: Text("City/Province"),
-                //   decoration: InputDecoration(
-                //     border: InputBorder.none,
-                //     prefixIcon: Icon(Icons.add_location),
-                //     //hintText: "City/Province",
-                //     isDense: true, // Added this
-                //     contentPadding: EdgeInsets.all(10),
-                //   ),
-                //   value: null,
-                //   items: provinces
-                //       .map<DropdownMenuItem<String>>((Province provinces) {
-                //     return DropdownMenuItem<String>(
-                //       child: Text(provinces.default_name),
-                //       value: "${provinces.id}",
-                //     );
-                //   }).toList(),
-                //   onChanged: (String val) {
-                //     setState(() {
-                //       String pro = val;
-                //       print(pro);
-                //       //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
-
-                //       getDistricts(pro);
-                //     });
-                //   },
-                // ),
                 SizedBox(height: 7),
                 GetX<SellerController>(
                   builder: (controller) => DropdownButtonFormField<String>(
@@ -274,7 +248,7 @@ class _SellerState extends State<Seller> {
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Address"),
-                  //onChanged: dropChange,
+                  onChanged: dropChange,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon:
@@ -293,26 +267,6 @@ class _SellerState extends State<Seller> {
                 ),
               ]),
         ),
-        /*TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Supplier",
-                  ),
-                  controller: _supplier,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "City/Province",
-                  ),
-                  controller: _cityprovince,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Address",
-                  ),
-                  controller: _address,
-                ),
-              ]),
-        ),*/
         Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -346,7 +300,9 @@ class _SellerState extends State<Seller> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            imageController.getPic( ImageSource.gallery);
+                          },
                           child: Text("Upload your logo here"),
                           color: Colors.green,
                         ),
@@ -358,7 +314,7 @@ class _SellerState extends State<Seller> {
                                       ''
                                   ? Text('Select image from gallery')
                                   : Image.file(File(
-                                      imageController.selectedImagePath.value)))
+                                      imageController.selectedImagePath.value),scale: 0.9,))
                             ]),
                       ]),
                 )

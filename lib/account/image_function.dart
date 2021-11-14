@@ -10,7 +10,7 @@ class ImageController extends GetxController {
   var selectedImageSize = ''.obs;
 
   void getPic(ImageSource imageSource) async {
-    final pickedFile = await ImagePicker().getImage(source: imageSource);
+    final pickedFile = await ImagePicker().pickImage(source: imageSource);
     selectedImagePath.value = pickedFile!.path;
    
       try {
