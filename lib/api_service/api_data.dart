@@ -28,6 +28,7 @@ class Province {
   }
 
   static Future<List<Province>?> connectToAPI() async {
+    
     final sharePreference = await SharedPreferences.getInstance();
     final token = sharePreference.get('token');
     // try
@@ -39,13 +40,8 @@ class Province {
         'Authorization': 'Bearer $token',
       });
 
-      print(apiResult.body);
-      print(apiResult.statusCode);
       if (apiResult.body != null) {
         if (apiResult.statusCode == 200) {
-          var jsonObject = json.decode(apiResult.body);
-          var data = (jsonObject as Map<String, dynamic>)['data'];
-
           final response = json.decode(apiResult.body);
           return response!['data']['provinces']
               .map<Province>((json) => Province.createData(json))

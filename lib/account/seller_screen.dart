@@ -51,9 +51,6 @@ class _SellerState extends State<Seller> {
   @override
   void initState() {
     super.initState();
-    getProvinces();
-    getDistricts(pro);
-    print('1');
   }
 
   @override
@@ -210,8 +207,9 @@ class _SellerState extends State<Seller> {
                         setState(() {
                           String pro = val!;
                           sellerController.getDistricts(pro);
-                          //String pro = val;
-                          print(pro);
+                          setState(() {
+                            _district = null;
+                          });
                           //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
                         });
                       },
@@ -219,32 +217,30 @@ class _SellerState extends State<Seller> {
                   },
                 ),
                 SizedBox(height: 7),
-                GetX<SellerController>(
-                  builder: (controller) => DropdownButtonFormField<String>(
-                    hint: Text("District"),
-                    onChanged: (String? district) {
-                      setState(() {
-                        _district = district;
-                      });
-                    },
-                    onSaved: (String? val) {},
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon:
-                          Icon(Icons.add_location), // hintText: "District",
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    value: null,
-                    items: controller.districts
-                        .map<DropdownMenuItem<String>>((District districts) {
-                      return DropdownMenuItem<String>(
-                        child: Text(districts.default_name),
-                        value: districts.default_name,
-                      );
-                    }).toList(),
-                  ),
-                ),
+                Obx(() => DropdownButtonFormField<String>(
+                      hint: Text("District"),
+                      onChanged: (String? district) {
+                        setState(() {
+                          _district = district;
+                        });
+                      },
+                      onSaved: (String? val) {},
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon:
+                            Icon(Icons.add_location), // hintText: "District",
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      value: _district ?? null,
+                      items: sellerController.districts
+                          .map<DropdownMenuItem<String>>((District districts) {
+                        return DropdownMenuItem<String>(
+                          child: Text(districts.default_name),
+                          value: districts.default_name,
+                        );
+                      }).toList(),
+                    )),
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Address"),
