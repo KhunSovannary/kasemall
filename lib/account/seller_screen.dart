@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kasemall/account/controller/seller_api_controller.dart';
 import 'package:kasemall/account/controller/seller_controller.dart';
 //import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
@@ -11,7 +12,8 @@ import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/shopping/shopping_screen.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' as file;
+//import "dart:html"; 
 //import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
@@ -20,6 +22,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kasemall/account/image_function.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Seller extends StatefulWidget {
   Seller({key, required this.title}) : super(key: key);
@@ -36,18 +39,20 @@ class _SellerState extends State<Seller> {
 
   TextEditingController _shopname = new TextEditingController();
   List<String> _filename = [];
-
+  late file.File logo;
+  late file.File cover;
   // inject your dependency -> ImageController
   final imageController1 = Get.put(ImageController());
 
+  final imageController2 = Get.put(ImageController());
   //String _filename;
   String pro = '1';
   String? _membership;
   String? _supplier;
-  Province? _cityprovince;
+  String? _cityprovince;
   String? _district;
   String? _address;
-  List<File>? selectedfile;
+  List<file.File>? selectedfile;
   @override
   void initState() {
     super.initState();
@@ -145,7 +150,9 @@ class _SellerState extends State<Seller> {
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Memebership"),
-                  onChanged: dropChange,
+                  onChanged: (String? val) {
+                    _membership = val;
+                  },
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.people),
@@ -153,7 +160,7 @@ class _SellerState extends State<Seller> {
                     contentPadding: EdgeInsets.all(10),
                   ),
                   value: _membership,
-                  items: <String>['Member1', 'Member2']
+                  items: <String>['1', '2']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       child: Text(value),
@@ -165,7 +172,9 @@ class _SellerState extends State<Seller> {
 
                 DropdownButtonFormField(
                   hint: Text("Supplier"),
-                  onChanged: dropChange,
+                  onChanged: (String? val) {
+                    _supplier = val;
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.store), //hintText: "Supplier",
@@ -205,6 +214,7 @@ class _SellerState extends State<Seller> {
                       }).toList(),
                       onChanged: (String? val) {
                         setState(() {
+                          _cityprovince = val;
                           String pro = val!;
                           sellerController.getDistricts(pro);
                           setState(() {
@@ -237,14 +247,18 @@ class _SellerState extends State<Seller> {
                           .map<DropdownMenuItem<String>>((District districts) {
                         return DropdownMenuItem<String>(
                           child: Text(districts.default_name),
-                          value: districts.default_name,
+                          value: " ${districts.id}",
                         );
                       }).toList(),
                     )),
                 SizedBox(height: 7),
                 DropdownButtonFormField(
                   hint: Text("Address"),
-                  onChanged: dropChange,
+                  onChanged: (String? val) {
+                    setState(() {
+                      _address = val;
+                    });
+                  },
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     prefixIcon:
@@ -297,20 +311,36 @@ class _SellerState extends State<Seller> {
                       children: [
                         FlatButton(
                           onPressed: () {
-                            imageController.getPic( ImageSource.gallery);
+                            imageController.getPic(ImageSource.gallery);
                           },
                           child: Text("Upload your logo here"),
                           color: Colors.green,
                         ),
+                        FlatButton(
+                            onPressed: () {
+                              imageController1.getPic(ImageSource.gallery);
+                            },
+                            child: Text("Upload your cover here"),
+                            color: Colors.green[100]),
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Obx(() => imageController
-                                          .selectedImagePath.value ==
-                                      ''
-                                  ? Text('Select image from gallery')
-                                  : Image.file(File(
-                                      imageController.selectedImagePath.value),scale: 0.9,))
+                              Obx(() =>
+                                  imageController.selectedImagePath.value == ''
+                                      ? Text('Select image from gallery')
+                                      : Image.file(file.
+                                          File(imageController
+                                              .selectedImagePath.value),
+                                          scale: 0.9,
+                                        )),
+                              Obx(() =>
+                                  imageController1.selectedImagePath.value == ''
+                                      ? Text('Select image from gallery')
+                                      : Image.file(file.
+                                          File(imageController1
+                                              .selectedImagePath.value),
+                                          scale: 0.9,
+                                        ))
                             ]),
                       ]),
                 )
@@ -319,8 +349,16 @@ class _SellerState extends State<Seller> {
       ])),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          setState(() {
+           /* logo = file.File(imageController.selectedImagePath.value);
+            cover = file.File(imageController1.selectedImagePath.value);*/
+          });
           print("Done");
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          String? phone = prefs.getString('phone');
+          /*openShop(_shopname.text, phone!, _membership!, _cityprovince!,
+              _district!, _supplier!, _address!, logo, cover);*/
           // getProvinces();
           // getDistricts();
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));

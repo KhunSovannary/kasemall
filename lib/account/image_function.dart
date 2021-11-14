@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'dart:io' as file;
+//import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //import 'package:file_picker/file_picker.dart';
@@ -12,20 +13,19 @@ class ImageController extends GetxController {
   void getPic(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().pickImage(source: imageSource);
     selectedImagePath.value = pickedFile!.path;
-   
-      try {
-            print(pickedFile.path); 
-            selectedImageSize.value =
-            ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
-                    .toStringAsFixed(2) +
-                "Mb";
-      } catch (e) {
-        print(e);
-        Get.snackbar('Error', 'No image selected',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
+
+    try {
+      print(pickedFile.path);
+      selectedImageSize.value =
+          ((file.File(selectedImagePath.value,)).lengthSync() / 1024 / 1024)
+                  .toStringAsFixed(2) +
+              "Mb";
+    } catch (e) {
+      print(e);
+      Get.snackbar('Error', 'No image selected',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
     }
   }
-
+}

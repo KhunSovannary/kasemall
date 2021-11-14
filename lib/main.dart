@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kasemall/account/seller_screen.dart';
-
+import 'dart:html';
 import 'homepage/home_screen.dart';
 import 'login/login_screen.dart';
 
@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
       ),
-      home: MyHomePage(        
-      ),
+      home: MyHomePage(),
       // home: MyHomePage(),
     );
   }
