@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:kasemall/account/controller/seller_controller.dart';
 //import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
@@ -30,11 +30,15 @@ class Seller extends StatefulWidget {
 }
 
 class _SellerState extends State<Seller> {
-  //ImageController imageController = new ImageController();
-  TextEditingController _shopname = new TextEditingController();
-  List<String>? _filename;
+  // this is creating an instance of class
+  ImageController imageController = new ImageController();
 
-  final imageController = Get.put(ImageController());
+  TextEditingController _shopname = new TextEditingController();
+  List<String> _filename = [];
+
+  // inject your dependency -> ImageController
+  final imageController1 = Get.put(ImageController());
+
   //String _filename;
   String pro = '1';
   String? _membership;
@@ -81,6 +85,9 @@ class _SellerState extends State<Seller> {
     getListAPI();
     for (int i = 0; i < list.length; i++) provinces.add(list[i].name);
   }*/
+  // getProvinces();
+
+  final sellerController = Get.put(SellerController());
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,91 +101,111 @@ class _SellerState extends State<Seller> {
         ),
       ),
       body: SingleChildScrollView(
-          child: Column(
-        children: [
-          Card(
+          child: Column(children: [
+        Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
             // borderOnForeground: true,
             elevation: 4.0,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                        color: Colors.grey[300]),
-                    height: 50,
-                    // color: Colors.grey[300],
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    //color:Colors.green,
-                    child: Text("Shop Information",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  SizedBox(height: 7),
-                  //Image(image: AssetImage("lib/assets/logo1.jpg")),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      ),
+                      color: Colors.grey[300]),
+                  height: 50,
+                  // color: Colors.grey[300],
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  //color:Colors.green,
+                  child: Text("Shop Information",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(height: 7),
+                //Image(image: AssetImage("lib/assets/logo1.jpg")),
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
 
-                      hintText: "Shop Name",
-                      prefixIcon: Icon(Icons.store, size: 30),
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    controller: _shopname,
+                    hintText: "Shop Name",
+                    prefixIcon: Icon(Icons.store, size: 30),
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
                   ),
-                  SizedBox(height: 7),
-                  DropdownButtonFormField(
-                    hint: Text("Memebership"),
-                    // onChanged: ,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.people),
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    value: _membership,
-                    items: <String>['Member1', 'Member2']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        child: Text(value),
-                        value: value,
-                      );
-                    }).toList(),
+                  controller: _shopname,
+                ),
+                SizedBox(height: 7),
+                DropdownButtonFormField(
+                  hint: Text("Memebership"),
+                  // onChanged: ,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.people),
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
                   ),
-                  SizedBox(height: 7),
+                  value: _membership,
+                  items: <String>['Member1', 'Member2']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      child: Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 7),
 
-                  DropdownButtonFormField(
-                    hint: Text("Supplier"),
-                    //onChanged: dropChange,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.store), //hintText: "Supplier",
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    value: _supplier,
-                    items: <String>['Seller1', 'Seller2']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        child: Text(value),
-                        value: value,
-                      );
-                    }).toList(),
+                DropdownButtonFormField(
+                  hint: Text("Supplier"),
+                  //onChanged: dropChange,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.store), //hintText: "Supplier",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
                   ),
-                  SizedBox(height: 10),
+                  value: _supplier,
+                  items: <String>['Seller1', 'Seller2']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      child: Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 7),
 
-                  DropdownButtonFormField<String>(
+                DropdownButtonFormField(
+                  hint: Text("Supplier"),
+                  //onChanged: dropChange,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.store), //hintText: "Supplier",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
+                  ),
+                  value: _supplier,
+                  items: <String>['Seller1', 'Seller2']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      child: Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 10),
+                GetX<SellerController>(
+                  builder: (controller) {
+                    return DropdownButtonFormField<String>(
                       hint: Text("City/Province"),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -188,21 +215,60 @@ class _SellerState extends State<Seller> {
                         contentPadding: EdgeInsets.all(10),
                       ),
                       value: null,
-                      items: provinces!
-                          .map<DropdownMenuItem<String>>((Province provinces) {
+                      items: controller.provinces
+                          .map<DropdownMenuItem<String>>((dynamic provinces) {
                         return DropdownMenuItem<String>(
                           child: Text(provinces.default_name),
                           value: "${provinces.id}",
                         );
                       }).toList(),
                       onChanged: (String? val) {
-                        pro = val!;
-                      }),
+                        sellerController.getDistricts(val!);
+                        setState(() {
+                          String pro = val;
+                          print(pro);
+                          //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
+                        });
+                      },
+                    );
+                  },
+                ),
+                // DropdownButtonFormField<String>(
+                //   hint: Text("City/Province"),
+                //   decoration: InputDecoration(
+                //     border: InputBorder.none,
+                //     prefixIcon: Icon(Icons.add_location),
+                //     //hintText: "City/Province",
+                //     isDense: true, // Added this
+                //     contentPadding: EdgeInsets.all(10),
+                //   ),
+                //   value: null,
+                //   items: provinces
+                //       .map<DropdownMenuItem<String>>((Province provinces) {
+                //     return DropdownMenuItem<String>(
+                //       child: Text(provinces.default_name),
+                //       value: "${provinces.id}",
+                //     );
+                //   }).toList(),
+                //   onChanged: (String val) {
+                //     setState(() {
+                //       String pro = val;
+                //       print(pro);
+                //       //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
 
-                  SizedBox(height: 7),
-                  DropdownButtonFormField<String>(
+                //       getDistricts(pro);
+                //     });
+                //   },
+                // ),
+                SizedBox(height: 7),
+                GetX<SellerController>(
+                  builder: (controller) => DropdownButtonFormField<String>(
                     hint: Text("District"),
-                    onChanged: (String? val) {},
+                    onChanged: (String? district) {
+                      setState(() {
+                        _district = district;
+                      });
+                    },
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon:
@@ -211,7 +277,7 @@ class _SellerState extends State<Seller> {
                       contentPadding: EdgeInsets.all(10),
                     ),
                     value: null,
-                    items: districts!
+                    items: controller.districts
                         .map<DropdownMenuItem<String>>((District districts) {
                       return DropdownMenuItem<String>(
                         child: Text(districts.default_name),
@@ -219,30 +285,28 @@ class _SellerState extends State<Seller> {
                       );
                     }).toList(),
                   ),
-
-                  SizedBox(height: 7),
-                  DropdownButtonFormField(
-                    hint: Text("Address"),
-                    //onChanged: dropChange,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon:
-                          Icon(Icons.add_location), // hintText: "Address",
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    value: _address,
-                    items: <String>['Address1', 'Address2']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        child: Text(value),
-                        value: value,
-                      );
-                    }).toList(),
+                ),
+                SizedBox(height: 7),
+                DropdownButtonFormField(
+                  hint: Text("Address"),
+                  //onChanged: dropChange,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon:
+                        Icon(Icons.add_location), // hintText: "Address",
+                    isDense: true, // Added this
+                    contentPadding: EdgeInsets.all(10),
                   ),
-                ]),
-          ),
-          /*TextFormField(
+                  value: _address,
+                  items: <String>['Address1', 'Address2']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      child: Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                ),
+                /*TextFormField(
                   decoration: InputDecoration(
                     labelText: "Supplier",
                   ),
@@ -262,131 +326,65 @@ class _SellerState extends State<Seller> {
                 ),
               ]),
         ),*/
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            // borderOnForeground: true,
-            elevation: 4.0,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                        ),
-                        color: Colors.grey[300]),
-                    height: 50,
-                    // color: Colors.grey[300],
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    //color:Colors.green,
-                    child: Text("Upload Required Photo",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        )),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                  Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          FlatButton(
-                            onPressed: () {
-                              imageController.getPic(ImageSource.gallery);
-                              /* Get.defaultDialog(
-                                title: 'Select Option',
-                                content: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    SimpleDialogOption(
-                                      onPressed: () {
-                                        // Navigator.pop(context, Department.treasury);
-                                      },
-                                      child: const Text('Images'),
-                                    ),
-                                    SimpleDialogOption(
-                                      onPressed: () {
-                                        //Navigator.pop(context, Department.state);
-                                        selectFile();
-                                      },
-                                      child: const Text('Files'),
-                                    ),
-                                  ],
-                                ));
-                            //selectFile();
-                            /* File selectedfile =
-                                await FilePicker.getFile(
-                                type: FileType.custom,
-                                allowedExtensions: ['jpg','jpeg'],
-                                );
-                            /*FilePickerResult result = await FilePicker.platform
-                                .pickFiles(allowMultiple: true);
-                            if (result != null) {
-                              print("okay");
-*/                          if(selectedfile!=null){
-                              setState(() {
-                              _filename = basename(selectedfile.path);
-                               /* List<PlatformFile> files =
-                                    result.files.toList();
-                                _filename = files
-                                    .map((PlatformFile file) => file.name)
-                                    .toList();
-                              });
-                            } else {
-                              print(result);*/
-});}
-                                else
-                              print("failed");*/
-                          */
-                            }
-                            /* final result = await FilePicker.platform
-                              .pickFiles(allowMultiple: true);
-                          if (result == null) return;
-                          final file = result.files.first;
-                          openFile(result.files);
-                          final newFile = await saveFilePermanently(file);*/
-                            ,
-                            child: Text("Upload your logo here"),
-                            color: Colors.green,
-                          ),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                  // borderOnForeground: true,
+                  elevation: 4.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                              color: Colors.grey[300]),
+                          height: 50,
+                          // color: Colors.grey[300],
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          //color:Colors.green,
+                          child: Text("Upload Required Photo",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Obx(() =>
-                                    imageController.selectedImagePath.value ==
-                                            ''
-                                        ? Text('Select image from gallery')
-                                        : Image.file(File(imageController
-                                            .selectedImagePath.value)))
-                                /*Image.file(
-                                           File(imageController.selectedImagePath.value),
-                                          width: double.infinity,
-                                          height: 300,
-                                              ),*/
-
-                                // getFile(_filename)
-
-                                /*Icon(Icons.file_present),
-                              Text("$_filename"),*/
-                                /*Text("File 1"),
-                            Text("File 2"),*/
-                              ])
-                        ]),
-                  )
-                ]),
-          )
-        ],
-      )),
+                                FlatButton(
+                                  onPressed: () {},
+                                  child: Text("Upload your logo here"),
+                                  color: Colors.green,
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Obx(() => imageController
+                                                  .selectedImagePath.value ==
+                                              ''
+                                          ? Text('Select image from gallery')
+                                          : Image.file(File(imageController
+                                              .selectedImagePath.value)))
+                                    ])
+                              ]),
+                        )
+                      ]),
+                )
+              ],
+            )),
+      ])),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Done");
-          getProvinces();
-          getDistricts(pro);
+          // getProvinces();
           // getDistricts();
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
           //Get.to(() => Shop());
@@ -401,82 +399,7 @@ class _SellerState extends State<Seller> {
     OpenFile.open(file.path);
   }
 */
-  /* void openFiles(List<PlatformFile> files) => Get.to(() => FilesPage(
-        files: files,
-        onOpenedFile: openFile,
-      ));*/
-  /*Future<File> saveFilePermanently(PlatformFile file) async {
-    final appStorage = await getApplicationDocumentsDirectory();
-    final newFile = File('${appStorage.path}/${file.name}');
-
-    return File(file.path).copy(newFile.path);
-  }
-  
-  Widget buildFile(PlatformFile file) {
-    final kb = file.size / 1024;
-    final mb = kb / 1024;
-    final fileSize =
-        mb >= 1 ? '${mb.toStringAsFixed(2)}MB' : '${kb.toStringAsFixed(2)}KB';
-    final extension = file.extension ?? 'none';
-    final color = Colors.green;
-    return InkWell(
-      onTap: () => widget.onOpenedFile(file),
-      child: Container(
-        padding: EdgeInsets.all(8),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-              child: Container(
-            alignment: Alignment.center,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '.$extension',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          )),
-          const SizedBox(height: 8),
-          Text(
-            file.name,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            fileSize,
-            style: TextStyle(fontSize: 16),*/
-
-  // void openFiles(List<PlatformFile> files) =>
- /*selectFile() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowMultiple: true,
-      allowedExtensions: ['jpg', 'pdf', 'mp4', 'docx'],
-      //allowed extension to choose
-    );
-
-    if (result != null) {
-      //if there is selected file
-      selectedfile =
-          result.files.map((PlatformFile file) => File(file.path)).toList();
-
-      setState(() {
-        _filename = result.files
-            .map((PlatformFile file) => basename(file.path))
-            .toList();
-
-        print(selectedfile);
-      });
-    }
-    //allowed extension to choose
-  }
-
-
+  /*
 Widget getFile(List<String> strings) {
   List<Widget> list = new List<Widget>();
   for (var i = 0; i < strings.length; i++) {
