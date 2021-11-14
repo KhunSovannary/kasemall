@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kasemall/account/controller/seller_controller.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
 import 'package:kasemall/login/login_screen.dart';
@@ -28,7 +29,7 @@ class Seller extends StatefulWidget {
 }
 
 class _SellerState extends State<Seller> {
-  // this is creating an instance of class 
+  // this is creating an instance of class
   ImageController imageController = new ImageController();
 
   TextEditingController _shopname = new TextEditingController();
@@ -47,30 +48,29 @@ class _SellerState extends State<Seller> {
   @override
   void initState() {
     super.initState();
-    getProvinces();
-
+    // getProvinces();
     print('1');
   }
 
   void dropChange(String vaL) {}
   @override
   List<Province> provinces = [];
-  void getProvinces() {
-    Province.connectToAPI().then((hasil) {
-      setState(() {
-        provinces = hasil;
-      });
-    });
-  }
+  // void getProvinces() {
+  //   Province.connectToAPI().then((hasil) {
+  //     setState(() {
+  //       provinces = hasil;
+  //     });
+  //   });
+  // }
 
   List<District> districts = [];
-  void getDistricts(String p) {
-    District.connectToAPI(p).then((hasil) {
-      setState(() {
-        districts = hasil;
-      });
-    });
-  }
+  // void getDistricts(String p) {
+  //   District.connectToAPI(p).then((hasil) {
+  //     setState(() {
+  //       districts = hasil;
+  //     });
+  //   });
+  // }
   /* void getListAPI() {
     Provinces.getData().then((hasil) {
       list = hasil;
@@ -83,6 +83,8 @@ class _SellerState extends State<Seller> {
     getListAPI();
     for (int i = 0; i < list.length; i++) provinces.add(list[i].name);
   }*/
+
+  final sellerController = Get.put(SellerController());
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,52 +179,84 @@ class _SellerState extends State<Seller> {
                   }).toList(),
                 ),
                 SizedBox(height: 10),*/
-                DropdownButtonFormField<String>(
-                  hint: Text("City/Province"),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Icons.add_location),
-                    //hintText: "City/Province",
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(10),
-                  ),
-                  value: null,
-                  items: provinces
-                      .map<DropdownMenuItem<String>>((Province provinces) {
-                    return DropdownMenuItem<String>(
-                      child: Text(provinces.default_name),
-                      value: "${provinces.id}",
+                GetX<SellerController>(
+                  builder: (controller) {
+                    return DropdownButtonFormField<String>(
+                      hint: Text("City/Province"),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.add_location),
+                        //hintText: "City/Province",
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      value: null,
+                      items: controller.provinces
+                          .map<DropdownMenuItem<String>>((dynamic provinces) {
+                        return DropdownMenuItem<String>(
+                          child: Text(provinces.default_name),
+                          value: "${provinces.id}",
+                        );
+                      }).toList(),
+                      onChanged: (String val) {
+                        sellerController.getDistricts(val);
+                        setState(() {
+                          String pro = val;
+                          print(pro);
+                          //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
+                        });
+                      },
                     );
-                  }).toList(),
-                  onChanged: (String val) {
-                    setState(() {
-                      String pro = val;
-                      print(pro);
-                      //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
-
-                      getDistricts(pro);
-                    });
                   },
                 ),
+                // DropdownButtonFormField<String>(
+                //   hint: Text("City/Province"),
+                //   decoration: InputDecoration(
+                //     border: InputBorder.none,
+                //     prefixIcon: Icon(Icons.add_location),
+                //     //hintText: "City/Province",
+                //     isDense: true, // Added this
+                //     contentPadding: EdgeInsets.all(10),
+                //   ),
+                //   value: null,
+                //   items: provinces
+                //       .map<DropdownMenuItem<String>>((Province provinces) {
+                //     return DropdownMenuItem<String>(
+                //       child: Text(provinces.default_name),
+                //       value: "${provinces.id}",
+                //     );
+                //   }).toList(),
+                //   onChanged: (String val) {
+                //     setState(() {
+                //       String pro = val;
+                //       print(pro);
+                //       //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
+
+                //       getDistricts(pro);
+                //     });
+                //   },
+                // ),
                 SizedBox(height: 7),
-                DropdownButtonFormField<String>(
-                  hint: Text("District"),
-                  onChanged: dropChange,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon:
-                        Icon(Icons.add_location), // hintText: "District",
-                    isDense: true, // Added this
-                    contentPadding: EdgeInsets.all(10),
+                GetX<SellerController>(
+                  builder: (controller) => DropdownButtonFormField<String>(
+                    hint: Text("District"),
+                    onChanged: dropChange,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon:
+                          Icon(Icons.add_location), // hintText: "District",
+                      isDense: true, // Added this
+                      contentPadding: EdgeInsets.all(10),
+                    ),
+                    value: null,
+                    items: controller.districts
+                        .map<DropdownMenuItem<String>>((District districts) {
+                      return DropdownMenuItem<String>(
+                        child: Text(districts.default_name),
+                        value: districts.default_name,
+                      );
+                    }).toList(),
                   ),
-                  value: null,
-                  items: districts
-                      .map<DropdownMenuItem<String>>((District districts) {
-                    return DropdownMenuItem<String>(
-                      child: Text(districts.default_name),
-                      value: districts.default_name,
-                    );
-                  }).toList(),
                 ),
                 SizedBox(height: 7),
                 DropdownButtonFormField(
@@ -382,7 +416,7 @@ class _SellerState extends State<Seller> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Done");
-          getProvinces();
+          // getProvinces();
           // getDistricts();
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
           //Get.to(() => Shop());
