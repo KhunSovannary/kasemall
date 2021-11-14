@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:kasemall/login/login_api_service.dart';
-import 'package:kasemall/otp/otp_api_service.dart';
+import 'package:get/get.dart';
+//import 'package:kasemall/login/login_api_service.dart';
+import 'package:kasemall/otp/otp_controller.dart';
 import 'package:kasemall/otp/otp_screen.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
+//import 'package:sms_autofill/sms_autofill.dart';
 
 class Register extends StatefulWidget {
   //const Register(key) : super(key: key);
@@ -14,12 +15,12 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  OtpCodeRepository getOtp = new OtpCodeRepository();
+  //OtpCodeRepository getOtp = new OtpCodeRepository();
   TextEditingController _phone = new TextEditingController();
   TextEditingController _fullname = new TextEditingController();
   TextEditingController _password = new TextEditingController();
   TextEditingController _confirmpassword = new TextEditingController();
-  
+  final OtpCodeRepository getOtp = Get.put(OtpCodeRepository());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,50 +95,43 @@ class _RegisterState extends State<Register> {
               FlatButton(
                   color: Colors.green,
                   onPressed: () async {
-                   if (_confirmpassword.text == _password.text) {
-                            /*Navigator.of(context).push(MaterialPageRoute(
+                    if (_confirmpassword.text == _password.text) {
+                      /*Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => OTP()));*/
-                            final signCode =
-                                await SmsAutoFill().getAppSignature;
-                            print(signCode);
-                            
-                            getOtp.getOtpCode(_phone.text)
-                                .then((response) => {
-                                      if (!response.status)
-                                        {
-                                          _showMyDialog(context,
-                                               response.msg),
-                                          /*else 
+                      /*final signCode =
+                                await SmsAutoFill().getAppSignature;*/
+                      //print(signCode);
+                      //await SmsAutoFill().listenForCode;
+
+                      getOtp.getOtpCode(_phone.text).then((response) => {
+                            if (!response.status)
+                              {
+                                _showMyDialog(context, response.msg),
+                                /*else 
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => OTP()))
                     }}*/
 
-                                          // print(response.data),
-                                          //print(response.status),
-                                        }
-                                      else
-                                        {
-                                          print(response.data),
-                                          Get.to(() => OTP(
-                                                        phoneNumber:
-                                                            _phone.text,
-                                                        fullName:
-                                                            _fullname.text,
-                                                        password:
-                                                            _password.text,
-                                                        requestId:
-                                                            response.data,
-                                                      )),
-                                        }
-                                    });
-                          } else
-                            print("not match");
-                        },
-                  
+                                // print(response.data),
+                                //print(response.status),
+                              }
+                            else
+                              {
+                                print(response.data),
+                                Get.to(() => OTP(
+                                      phoneNumber: _phone.text,
+                                      fullName: _fullname.text,
+                                      password: _password.text,
+                                      requestId: response.data,
+                                    )),
+                              }
+                          });
+                    } else
+                      print("not match");
+                  },
                   child: Text("Sign Up")),
-            
+
               //],)
-              
             ],
           ),
         ),
@@ -146,6 +140,7 @@ class _RegisterState extends State<Register> {
     );
   }
 }
+
 Future<void> _showMyDialog(BuildContext context, String message) async {
   return showDialog<void>(
     context: context,

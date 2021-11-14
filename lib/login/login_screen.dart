@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:kasemall/login/login_api_service.dart';
+import 'package:get/get.dart';
+import 'package:kasemall/login/login_controller.dart';
+//import 'package:kasemall/login/login_api_service.dart';
+
 import 'package:kasemall/register/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
- // const Login(key) : super(key: key);
+  // const Login(key) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -14,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _phone = new TextEditingController();
   TextEditingController _password = new TextEditingController();
+  final LoginController controller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +67,7 @@ class _LoginState extends State<Login> {
               FlatButton(
                   color: Colors.green,
                   onPressed: () {
-                    logIn(_phone.text, _password.text);
+                   controller.logIn(_phone.text, _password.text);
                   },
                   child: Text("Log In")),
               SizedBox(height: 10),

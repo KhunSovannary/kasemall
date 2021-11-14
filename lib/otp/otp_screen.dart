@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/model/user_model.dart';
-import 'package:kasemall/otp/otp_api_service.dart';
+import 'package:kasemall/otp/otp_controller.dart';
+//import 'package:kasemall/otp/otp_api_service.dart';
 import 'package:kasemall/register/register_api_service.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class OTP extends StatefulWidget {
   final String phoneNumber, fullName, password, requestId;
-  OTP({this.phoneNumber, this.fullName, this.password, this.requestId});
+  OTP(
+      {required this.phoneNumber,
+      required this.fullName,
+      required this.password,
+      required this.requestId});
 
   @override
   _OTPState createState() => _OTPState();
@@ -17,7 +23,7 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   String _code = "";
   RegisterRepository register = new RegisterRepository();
-  OtpCodeRepository getOtp = new OtpCodeRepository();
+  final OtpCodeRepository getOtp = Get.put(OtpCodeRepository());
 
   final scaffoldKey = GlobalKey();
 
@@ -92,15 +98,26 @@ class _OTPState extends State<OTP> {
                 Text("A code has been sent to "),
                 Text("${hidePhoneNumber(widget.phoneNumber)}"),
                 Container(
-                    padding: const EdgeInsets.all(10),
-                    child: PinFieldAutoFill(
-                        codeLength: 4,
-                        onCodeChanged: (val) {
-                          print(val);
-                          _code = val;
-                        })
-
-                    /*Row(
+                  padding: const EdgeInsets.all(10),
+                  child: PinFieldAutoFill(
+                      decoration: UnderlineDecoration(
+                        colorBuilder:
+                            PinListenColorBuilder(Colors.black, Colors.grey),
+                      ),
+                      codeLength: 4,
+                      currentCode: _code,
+                      onCodeSubmitted: (code) {},
+                      onCodeChanged: (code) {
+                        if (code!.length == 6) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        }
+                      }),
+                ),
+                /*Spacer(),
+                TextFieldPinAutoFill(
+                  currentCode: _code,
+                ),*/
+                /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         pinBox(pin1, pin1Focus, pin2Focus),
@@ -111,10 +128,10 @@ class _OTPState extends State<OTP> {
                     ),
                   ),*/
 
-                    /* TextFieldPinAutoFill(
+                /* TextFieldPinAutoFill(
                     currentCode: _code,
                   ),*/
-                    ),
+
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: Row(
