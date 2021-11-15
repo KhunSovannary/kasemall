@@ -13,7 +13,7 @@ import 'package:kasemall/shopping/shopping_screen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as file;
-//import "dart:html"; 
+//import "dart:html";
 //import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
@@ -182,7 +182,7 @@ class _SellerState extends State<Seller> {
                     contentPadding: EdgeInsets.all(10),
                   ),
                   value: _supplier,
-                  items: <String>['Seller1', 'Seller2']
+                  items: <String>['1', '2']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       child: Text(value),
@@ -328,16 +328,16 @@ class _SellerState extends State<Seller> {
                               Obx(() =>
                                   imageController.selectedImagePath.value == ''
                                       ? Text('Select image from gallery')
-                                      : Image.file(file.
-                                          File(imageController
+                                      : Image.file(
+                                          file.File(imageController
                                               .selectedImagePath.value),
                                           scale: 0.9,
                                         )),
                               Obx(() =>
                                   imageController1.selectedImagePath.value == ''
                                       ? Text('Select image from gallery')
-                                      : Image.file(file.
-                                          File(imageController1
+                                      : Image.file(
+                                          file.File(imageController1
                                               .selectedImagePath.value),
                                           scale: 0.9,
                                         ))
@@ -351,18 +351,29 @@ class _SellerState extends State<Seller> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           setState(() {
-           /* logo = file.File(imageController.selectedImagePath.value);
-            cover = file.File(imageController1.selectedImagePath.value);*/
+            logo = file.File(imageController.selectedImagePath.value);
+            cover = file.File(imageController1.selectedImagePath.value);
           });
           print("Done");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           String? phone = prefs.getString('phone');
-          /*openShop(_shopname.text, phone!, _membership!, _cityprovince!,
-              _district!, _supplier!, _address!, logo, cover);*/
-          // getProvinces();
-          // getDistricts();
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-          //Get.to(() => Shop());
+          openShop(_shopname.text, phone!, _membership!, _cityprovince!,
+                  _district!, _supplier!, _address!, logo, cover)
+              .then((response) => {
+                        if (!response.status)
+                          {
+                            _showMyDialog(context, response.msg),
+                          }
+                        else
+                          {
+                            print(response.data),
+                          }
+                      }
+                  // getProvinces();
+                  // getDistricts();
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                  //Get.to(() => Shop());
+                  );
         },
         child: const Icon(Icons.check),
         backgroundColor: Colors.green,
@@ -370,11 +381,39 @@ class _SellerState extends State<Seller> {
     );
   }
 }
-  /*void openFile(PlatformFile file) {
+
+Future<void> _showMyDialog(BuildContext context, String message) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Submit Failed !'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(message),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+/*void openFile(PlatformFile file) {
     OpenFile.open(file.path);
   }
 */
-  /*
+/*
 Widget getFile(List<String> strings) {
   List<Widget> list = new List<Widget>();
   for (var i = 0; i < strings.length; i++) {
