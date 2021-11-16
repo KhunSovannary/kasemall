@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,17 +16,19 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
-
-   List<Product>? products= [
-     Product(1,"Juice",2.5),
-     Product(2,"Grape",3.4)];
+  List<Product>? products = [
+    Product(1, "Juice", 2.5),
+    Product(2, "Grape", 3.4)
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.green[700],
           title: Text(
-               "KaseMall",style: TextStyle(color: Colors.white,fontSize: 20),),
+            "KaseMall",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
           actions: <Widget>[
             IconButton(
                 onPressed: () {},
@@ -99,68 +100,68 @@ class _ShopState extends State<Shop> {
             ),
           ),
         ),
-        body:Container(
-
-        child: ListView(
-          children: [
-            Container(
-            decoration: new BoxDecoration(
-              color: Colors.grey,
-              borderRadius: new BorderRadius.circular(20.0),
+        body: Container(
+          child: ListView(children: [
+            Card(child: Column(children: [
+              SizedBox(height: 10),
+            //SingleChildScrollView(
+            TextFormField(
+              
+              decoration: InputDecoration(hintText: "Search", 
+              suffixIcon: Container(
+                color: Colors.green,
+                child: Icon(Icons.search,
+                      color: Colors.white,))),
             ),
 
-            height: 40.00,
-            //width:500.00,
-            child: TextFormField(
-                decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(15.0),
-              filled: true,
-              fillColor: Colors.white,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search',
-            )),
-          ),
+            SizedBox(height: 12),
             SizedBox(
               height: 150.0,
               width: double.infinity,
               child: CarouselSlider(
-                
                 options: CarouselOptions(),
-                items:<Widget>[
-                  Image(image:AssetImage("lib/assets/image1.jpg",
-                  ),fit:BoxFit.cover),
-                  Image(image:AssetImage("lib/assets/image2.jpg",
-                  ),fit:BoxFit.cover),
-                  Image(image:AssetImage("lib/assets/image3.jpg",
-                  ),fit:BoxFit.cover),
+                items: <Widget>[
+                  Image(
+                      image: AssetImage(
+                        "lib/assets/image1.jpg",
+                      ),
+                      fit: BoxFit.cover),
+                  Image(
+                      image: AssetImage(
+                        "lib/assets/image2.jpg",
+                      ),
+                      fit: BoxFit.cover),
+                  Image(
+                      image: AssetImage(
+                        "lib/assets/image3.jpg",
+                      ),
+                      fit: BoxFit.cover),
                   /*Image.asset("lib/assets/image2.jpg",
-                  fit: BoxFit.cover,),
-                  Image.asset("/lib/assets/image3.jpg",
-                  fit: BoxFit.cover,),*/
-
-
-            ], 
-            ),
-            ),
-          Card(
-              color: Colors.green[100],
-              child: CarouselSlider(
-                
-                options: CarouselOptions(),
-                items:products!.map((Product p)=>
-                   Column(children: [
-                     Text("Product:${p.id!}"),
-                     SizedBox(height:2),
-                      Text(p.name!),
-                     SizedBox(height:2),
-                      Text("${p.price!}"),
-                     SizedBox(height:2),]),
-                   ).toList(),
-                
-          )),]
-        ),));
+                      fit: BoxFit.cover,),
+                      Image.asset("/lib/assets/image3.jpg",
+                      fit: BoxFit.cover,),*/
+                ],
+              ),
+            ),]),),
+            Card(
+                color: Colors.green[100],
+                child: CarouselSlider(
+                  options: CarouselOptions(),
+                  items: products!
+                      .map(
+                        (Product p) => Column(children: [
+                          Text("Product:${p.id!}"),
+                          SizedBox(height: 2),
+                          Text(p.name!),
+                          SizedBox(height: 2),
+                          Text("${p.price!}"),
+                          SizedBox(height: 2),
+                        ]),
+                      )
+                      .toList(),
+                )),
+          ]),
+        ));
   }
 
   void logoutUser() async {

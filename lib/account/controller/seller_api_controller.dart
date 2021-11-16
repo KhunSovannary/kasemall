@@ -23,7 +23,7 @@ Future<ResponseModel> openShop(
   final token = sharePreference.get('token');
   try {
     var request = http.MultipartRequest(
-        "POST", Uri.parse('https://kasefarm1.kasegro.com/api/open-shop'));
+        "POST", Uri.parse('https://kasefarm1.kasegro.com/api/shops/open-shop'));
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
