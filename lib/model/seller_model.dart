@@ -8,55 +8,53 @@ import 'package:http/http.dart' as http;
 
 class Seller {
   // final int id;
-  final String name;
-  final String phone;
-  final String membership_id;
-  final String city_province_id;
-  final String district_id;
-  final String supplier_id;
-  final String address;
-  final file.File logo_image;
-  final file.File cover_image;
+  String? name;
+  String? phone;
+  String? membership_id;
+  String? city;
+  String? district;
+  int? supplier_id;
+  String? address;
+  String? logo_image;
+  String? cover_image;
 
   Seller({
-    required this.name,
-    required this.phone,
-    required this.membership_id,
-    required this.city_province_id,
-    required this.district_id,
-    required this.supplier_id,
-    required this.address,
-    required this.logo_image,
-    required this.cover_image,
+    this.name,
+    this.phone,
+    this.membership_id,
+    this.city,
+    this.district,
+    this.supplier_id,
+    this.address,
+    this.logo_image,
+    this.cover_image,
   });
+  /* Seller.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        phone = json['phone'],
+        membership_id = json['membership'],
+        city_province_id = json['cover_image'],
+        district_id = json['district_id'],
+        supplier_id = json['supplier_id'],
+        address = json['address'],
+        logo_image = json['logo_image'],
+        cover_image = json['cover_image'];*/
 
   factory Seller.fromJson(Map<String, dynamic> json) {
     return Seller(
       name: json['name'],
       phone: json['phone'],
       membership_id: json['membership'],
-      city_province_id: json['cover_image'],
-      district_id: json['district_id'],
+      city: json['city'],
+      district: json['district'],
       supplier_id: json['supplier_id'],
       address: json['address'],
       logo_image: json['logo_image'],
       cover_image: json['cover_image'],
     );
   }
+  Future<Seller> fetchSeller(json) async {
+    return Seller.fromJson(json);
+  }
 }
 
-FutureBuilder<Seller> buildFutureBuilder() {
-  Future<Seller>? _futureSeller;
-  return FutureBuilder<Seller>(
-    future: _futureSeller,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return Text(snapshot.data!.name);
-      } else if (snapshot.hasError) {
-        return Text('${snapshot.error}');
-      }
-
-      return const CircularProgressIndicator();
-    },
-  );
-}

@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/profile_screen.dart';
 import 'package:kasemall/account/seller_screen.dart';
+import 'package:kasemall/account/shop_view.dart';
 import 'package:kasemall/homepage/home_screen.dart';
 import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/model/product_model.dart';
+import 'package:kasemall/model/seller_model.dart' as sell;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Shop extends StatefulWidget {
@@ -16,6 +20,7 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
+  sell.Seller seller = new sell.Seller();
   List<Product>? products = [
     Product(1, "Juice", 2.5),
     Product(2, "Grape", 3.4)
@@ -57,30 +62,42 @@ class _ShopState extends State<Shop> {
                 Text("Hi"),
                 SizedBox(height: 50),
                 InkWell(
-                  child: Text("Account Setting"),
-                  onTap: () => Get.defaultDialog(
-                      title: "Do you want to be a seller?",
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          InkWell(
-                            child: Text("Yes"),
-                            onTap: () {
-                              Get.to(() => Seller(title: "Become a seller"));
-                            },
+                    child: Text("Account Setting"),
+                    onTap: () async {
+                      
+                      final preferences = await SharedPreferences.getInstance();
+                      String? shop = preferences.getString('user');
+                      
+                      // print(seller.name);
+                      if (shop != "") {
+                        Get.to(() => myShop());
+                      } else {
+                        Get.defaultDialog(
+                          title: "Do you want to be a seller?",
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              InkWell(
+                                child: Text("Yes"),
+                                onTap: () {
+                                  Get.to(
+                                      () => Seller(title: "Become a seller"));
+                                },
+                              ),
+                              SizedBox(width: 50),
+                              InkWell(
+                                child: Text("No"),
+                                onTap: () {
+                                  Get.to(() => Profile(
+                                      title: "Fill in your information"));
+                                },
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 50),
-                          InkWell(
-                            child: Text("No"),
-                            onTap: () {
-                              Get.to(() =>
-                                  Profile(title: "Fill in your information"));
-                            },
-                          ),
-                        ],
-                      )),
-                ),
+                        );
+                      }
+                    }),
                 SizedBox(height: 20),
                 Row(children: [
                   Icon(Icons.logout),
@@ -102,47 +119,52 @@ class _ShopState extends State<Shop> {
         ),
         body: Container(
           child: ListView(children: [
-            Card(child: Column(children: [
-              SizedBox(height: 10),
-            //SingleChildScrollView(
-            TextFormField(
-              
-              decoration: InputDecoration(hintText: "Search", 
-              suffixIcon: Container(
-                color: Colors.green,
-                child: Icon(Icons.search,
-                      color: Colors.white,))),
-            ),
+            Card(
+              child: Column(children: [
+                SizedBox(height: 10),
+                //SingleChildScrollView(
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: "Search",
+                      suffixIcon: Container(
+                          color: Colors.green,
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ))),
+                ),
 
-            SizedBox(height: 12),
-            SizedBox(
-              height: 150.0,
-              width: double.infinity,
-              child: CarouselSlider(
-                options: CarouselOptions(),
-                items: <Widget>[
-                  Image(
-                      image: AssetImage(
-                        "lib/assets/image1.jpg",
-                      ),
-                      fit: BoxFit.cover),
-                  Image(
-                      image: AssetImage(
-                        "lib/assets/image2.jpg",
-                      ),
-                      fit: BoxFit.cover),
-                  Image(
-                      image: AssetImage(
-                        "lib/assets/image3.jpg",
-                      ),
-                      fit: BoxFit.cover),
-                  /*Image.asset("lib/assets/image2.jpg",
+                SizedBox(height: 12),
+                SizedBox(
+                  height: 150.0,
+                  width: double.infinity,
+                  child: CarouselSlider(
+                    options: CarouselOptions(),
+                    items: <Widget>[
+                      Image(
+                          image: AssetImage(
+                            "lib/assets/image1.jpg",
+                          ),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage(
+                            "lib/assets/image2.jpg",
+                          ),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage(
+                            "lib/assets/image3.jpg",
+                          ),
+                          fit: BoxFit.cover),
+                      /*Image.asset("lib/assets/image2.jpg",
                       fit: BoxFit.cover,),
                       Image.asset("/lib/assets/image3.jpg",
                       fit: BoxFit.cover,),*/
-                ],
-              ),
-            ),]),),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
             Card(
                 color: Colors.green[100],
                 child: CarouselSlider(

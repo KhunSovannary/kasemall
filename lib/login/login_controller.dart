@@ -2,10 +2,13 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:kasemall/homepage/home_screen.dart';
+import 'package:kasemall/model/seller_model.dart';
 import 'package:kasemall/shopping/shopping_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
+  //Seller seller = new Seller();
+  Seller seller = Get.put(Seller());
   var loginProcess = false.obs;
   var error = '';
   Future logIn(String phoneNumber, String password) async {
@@ -28,9 +31,12 @@ class LoginController extends GetxController {
         print(response.body);
         jsonData = jsonDecode(response.body);
         //setState(() {});
-
-        sharedPreferences.setString("token", jsonData!["data"]["token"]);
-        print(jsonData['data']['token']);
+        print(jsonData!['data']['shop']);
+        sharedPreferences.setString("token", jsonData["data"]["token"]);
+        sharedPreferences.setString(
+            "shop", (jsonData['data']['user']).toString());
+        //seller.fetchSeller(jsonData['data']['shop']);
+        // print(jsonData['data']['shop']['id']);
 
         Get.to(() => Shop());
       } else
