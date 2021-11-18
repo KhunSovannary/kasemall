@@ -2,13 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kasemall/account/image_viewer.dart';
+import 'package:kasemall/account/controller/updateshop_controller.dart';
+import 'package:kasemall/account/image/image_viewer.dart';
 import 'package:kasemall/account/shop_repository.dart';
 import 'package:kasemall/model/seller_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class myShop extends StatelessWidget {
+class myShop extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<myShop> {
   final ShopRepository shopRepository = ShopRepository();
+  bool clicked = false;
+  Color c = Colors.black;
+  TextEditingController _shopname = new TextEditingController();
+  Seller seller = new Seller();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _shopname.text = "";
+
+    //_shopname.addListener(_printLatestValue);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,83 +41,118 @@ class myShop extends StatelessWidget {
           color: Colors.green,
         ),
       ),
-      body:Card(
-        child:FutureBuilder<Seller>(
-            future: shopRepository.getShopInfo(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
+      body: Card(
+        child: FutureBuilder<Seller>(
+          future: shopRepository.getShopInfo(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
                         decoration: InputDecoration(
                           labelText: "Shop Name",
+                          suffix: GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  clicked = !clicked;
+                                  seller = snapshot.data!;
+                                }
+
+                                    //print(_shopname);
+                                    /*if(_shopname!=null){
+                                      updateShop(snapshot.data!,
+                                        name: _shopname.text);*/
+
+                                    /*(updateShop(snapshot.data!,
+                                        name: _shopname.text);*/
+                                    );
+                              },
+                              child: Icon(Icons.edit,
+                                  color:
+                                      clicked ? Colors.green : Colors.black)),
                         ),
-                        initialValue: snapshot.data!.name,
-                        readOnly: true,
+                        /* onSaved: (text) {
+                            _shopname.text = text!;
+                          },*/
+                        //initialValue: snapshot.data!.name,
+                        controller: TextEditingController(
+                            text: _shopname.text != " "
+                                ? _shopname.text
+                                : snapshot.data!.name!),
+                        onChanged: (text) {
+                          _shopname.text = text;
+                          print(_shopname.text);
+                        },
+                        //controller: _shopname,
+                        readOnly: clicked ? false : true),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Membership",
+                      ),
+                      initialValue: snapshot.data!.membership_id,
+                      readOnly: true,
                     ),
                     TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Membership",
-                        ),
-                        initialValue: snapshot.data!.membership_id,
-                        readOnly: true,
-                ),
+                      decoration: InputDecoration(
+                        labelText: "Supplier",
+                      ),
+                      initialValue: "${snapshot.data!.supplier_id}",
+                      readOnly: true,
+                    ),
                     TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Supplier",
-                        ),
-                        initialValue: "${snapshot.data!.supplier_id}",
-                        readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: "City/Province",
+                      ),
+                      initialValue: snapshot.data!.city,
+                      readOnly: true,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "District",
+                      ),
+                      initialValue: snapshot.data!.district,
+                      readOnly: true,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Address",
+                      ),
+                      initialValue: "${snapshot.data!.address}",
+                      readOnly: true,
+                    ),
+                    SizedBox(height: 10),
+                    Text("Logo"),
+                    Center(
+                      child: Image(
+                        image: NetworkImage((snapshot.data!.logo_image)!),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text("Cover"),
+                    Center(
+                      child: Image(
+                        image: NetworkImage((snapshot.data!.cover_image)!),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    )
+                  ],
                 ),
-                TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "City/Province",
-                        ),
-                        initialValue: snapshot.data!.city,
-                        readOnly: true,
-                ),
-                TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "District",
-                        ),
-                        initialValue: snapshot.data!.district,
-                        readOnly: true,
-                ),
-               
-                TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Address",
-                        ),
-                        initialValue: "${snapshot.data!.address}",
-                        readOnly: true,
-                ),
-               SizedBox(height:10),
-               Text("Logo"),
-               Center(
-                 child: Image(
-                    image: NetworkImage((snapshot.data!.logo_image)!),              
-                    fit: BoxFit.fitWidth,
-          ),
-               ),
-              SizedBox(height:10),
-              Text("Cover"),
-              Center(
-                 child: Image(
-                    image: NetworkImage((snapshot.data!.cover_image)!),              
-                    fit: BoxFit.fitWidth,
-          ),
-               )
-               ],
-            ),);
-         }
-        return Center(
-              child: CircularProgressIndicator());
-
-        },),));
-      
-    
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          updateShop(seller, name: _shopname.text);
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
+    );
   }
 }

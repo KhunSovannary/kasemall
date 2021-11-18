@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kasemall/account/controller/seller_api_controller.dart';
+import 'package:kasemall/account/controller/openshop_api_controller.dart';
 import 'package:kasemall/account/controller/seller_controller.dart';
 //import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
@@ -19,7 +19,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:kasemall/account/image_function.dart';
+import 'package:kasemall/account/image/image_function.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

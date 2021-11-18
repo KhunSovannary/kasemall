@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/profile_screen.dart';
-import 'package:kasemall/account/seller_screen.dart';
+import 'package:kasemall/account/seller/seller_screen.dart';
 import 'package:kasemall/account/shop_view.dart';
 import 'package:kasemall/homepage/home_screen.dart';
 import 'package:kasemall/login/login_screen.dart';

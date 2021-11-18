@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kasemall/model/response_model.dart';
-import 'package:kasemall/model/seller_model.dart';
+//import 'package:kasemall/model/seller_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<ResponseModel> openShop(
@@ -62,12 +62,13 @@ Future<ResponseModel> openShop(
     final req = await request.send();
     final response = await req.stream.bytesToString();
     print(response);
-
-    return ResponseModel.fromJson(jsonDecode(response), [], req.statusCode);
+      return ResponseModel.fromJson(jsonDecode(response), [], req.statusCode);
+    
   } catch (e) {
     print('Error:$e');
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to open shop.');
+    
   }
 }

@@ -11,7 +11,9 @@ class Seller {
   String? name;
   String? phone;
   String? membership_id;
+  int? city_province_id;
   String? city;
+  int? district_id;
   String? district;
   int? supplier_id;
   String? address;
@@ -22,7 +24,9 @@ class Seller {
     this.name,
     this.phone,
     this.membership_id,
+    this.city_province_id,
     this.city,
+    this.district_id,
     this.district,
     this.supplier_id,
     this.address,
@@ -46,7 +50,9 @@ class Seller {
       phone: json['phone'],
       membership_id: json['membership'],
       city: json['city'],
+      city_province_id: json['city_province_id'],
       district: json['district'],
+      district_id: json['district_id'],
       supplier_id: json['supplier_id'],
       address: json['address'],
       logo_image: json['logo_image'],
@@ -57,4 +63,3 @@ class Seller {
     return Seller.fromJson(json);
   }
 }
-
