@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kasemall/account/controller/google_map_controller.dart';
 import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/shopping/shopping_screen.dart';
 
@@ -13,6 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late GoogleMapController mapController;
   TextEditingController _email = new TextEditingController();
   TextEditingController _gender = new TextEditingController();
   TextEditingController _birthdate = new TextEditingController();
@@ -21,8 +24,8 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
+          child: SingleChildScrollView(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -50,8 +53,13 @@ class _ProfileState extends State<Profile> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Address",
-                ),
+                    labelText: "Address",
+                    suffix: GestureDetector(
+                      onTap: () {
+                        Get.to(() => GGMap());
+                      },
+                      child:Icon(Icons.location_pin)
+                    )),
                 controller: _address,
               ),
             ]),
@@ -61,7 +69,7 @@ class _ProfileState extends State<Profile> {
         onPressed: () {
           print("Done");
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-          Get.to(()=>Shop());
+          Get.to(() => Shop());
         },
         child: const Icon(Icons.check),
         backgroundColor: Colors.green,

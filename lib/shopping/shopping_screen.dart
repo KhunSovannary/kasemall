@@ -69,9 +69,8 @@ class _ShopState extends State<Shop> {
                       String? shop = preferences.getString('user');
                       
                       // print(seller.name);
-                      if (shop != "") {
-                        Get.to(() => myShop());
-                      } else {
+                      /*if (shop != "") {   Get.to(() => myShop());
+                      } else {*/
                         Get.defaultDialog(
                           title: "Do you want to be a seller?",
                           content: Row(
@@ -96,7 +95,7 @@ class _ShopState extends State<Shop> {
                             ],
                           ),
                         );
-                      }
+                      
                     }),
                 SizedBox(height: 20),
                 Row(children: [

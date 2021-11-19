@@ -42,6 +42,10 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.4
   plugin_platform_interface: ^2.0.0
+  location: ^4.3.0
+  google_maps_flutter: ^2.0.9
+  geocode: ^1.0.1
+  geolocator: ^7.7.1
 
 dev_dependencies:
   flutter_test:

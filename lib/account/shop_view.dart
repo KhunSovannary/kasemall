@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kasemall/account/controller/updateshop_controller.dart';
 import 'package:kasemall/account/image/image_viewer.dart';
 import 'package:kasemall/account/shop_repository.dart';
@@ -19,6 +20,7 @@ class _State extends State<myShop> {
   Color c = Colors.black;
   TextEditingController _shopname = new TextEditingController();
   Seller seller = new Seller();
+  late UpdateShop update;
 
   @override
   void initState() {
@@ -26,6 +28,7 @@ class _State extends State<myShop> {
     super.initState();
     _shopname.text = "";
 
+    // UpdateShop updatecon = UpdateShop(seller:this.seller);
     //_shopname.addListener(_printLatestValue);
   }
 
@@ -57,8 +60,9 @@ class _State extends State<myShop> {
                           suffix: GestureDetector(
                               onTap: () async {
                                 setState(() {
-                                  clicked = !clicked;
                                   seller = snapshot.data!;
+                                  clicked = !clicked;
+                    
                                 }
 
                                     //print(_shopname);
@@ -79,12 +83,12 @@ class _State extends State<myShop> {
                           },*/
                         //initialValue: snapshot.data!.name,
                         controller: TextEditingController(
-                            text: _shopname.text != " "
-                                ? _shopname.text
-                                : snapshot.data!.name!),
+                            text: _shopname.text != ""
+                                ? seller.name
+                                : "${snapshot.data!.id!}"),
                         onChanged: (text) {
-                          _shopname.text = text;
-                          print(_shopname.text);
+                          seller.name = text;
+                          print(seller.name);
                         },
                         //controller: _shopname,
                         readOnly: clicked ? false : true),
@@ -92,7 +96,7 @@ class _State extends State<myShop> {
                       decoration: InputDecoration(
                         labelText: "Membership",
                       ),
-                      initialValue: snapshot.data!.membership_id,
+                      initialValue: "${snapshot.data!.membership_id}",
                       readOnly: true,
                     ),
                     TextFormField(
@@ -149,10 +153,50 @@ class _State extends State<myShop> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          updateShop(seller, name: _shopname.text);
+          print(seller.name);
+          setState(() {
+            update = Get.put(UpdateShop(seller));
+          });
+          update.updateShop().then((response) => {
+                if (!response.status)
+                  {
+                    _showMyDialog(context, response.msg),
+                  }
+                else
+                  {
+                    print(response.data),
+                  }
+              });
         },
         child: Icon(Icons.arrow_forward),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Submit Failed !'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

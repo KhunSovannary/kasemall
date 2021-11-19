@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Seller {
-  // final int id;
+  int? status;
+  int? id;
   String? name;
   String? phone;
-  String? membership_id;
+  int? membership_id;
   int? city_province_id;
   String? city;
   int? district_id;
@@ -21,6 +22,8 @@ class Seller {
   String? cover_image;
 
   Seller({
+    this.status,
+    this.id,
     this.name,
     this.phone,
     this.membership_id,
@@ -46,9 +49,11 @@ class Seller {
 
   factory Seller.fromJson(Map<String, dynamic> json) {
     return Seller(
+      status: json['status'],
+      id: json['id'],
       name: json['name'],
       phone: json['phone'],
-      membership_id: json['membership'],
+      membership_id: json['membership_id'],
       city: json['city'],
       city_province_id: json['city_province_id'],
       district: json['district'],
