@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kasemall/api_service/location_service.dart';
 import 'package:kasemall/model/location_model.dart';
-import 'package:location/location.dart';
+//import 'package:location/location.dart' as location;
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class GGMap extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class GGMap extends StatefulWidget {
 }
 
 class _GGMapState extends State<GGMap> {
+  late String countryName;
+  late String mainAddress;
   GoogleMapController? mapController;
   late Position _currentPosition;
   late String _currentAddress;
@@ -22,7 +26,8 @@ class _GGMapState extends State<GGMap> {
   late LocationModel location = new LocationModel();
   late final LocationService locationService = Get.put(LocationService());
   late String searchAddr;
-  late StreamSubscription<Position> positionStream;
+  Set<Marker> _markers = {};
+  //late List<Location> locations;
   @override
   void initState() {
     super.initState();
@@ -42,6 +47,8 @@ class _GGMapState extends State<GGMap> {
               target: LatLng(location.lat!, location.lng!), zoom: 10.0),
           onMapCreated: onMapCreated,
           mapType: MapType.normal,
+          markers: Set.from(_markers),
+          onTap: _handleTap,
         ),
         Positioned(
           top: 30.0,
@@ -73,6 +80,7 @@ class _GGMapState extends State<GGMap> {
     );
   }
 
+/*
   searchandNavigate() {
     positionStream = Geolocator.getPositionStream(forceAndroidLocationManager: true).listen((Position position) {
       mapController!.animateCamera(
@@ -82,6 +90,31 @@ class _GGMapState extends State<GGMap> {
       );
       //  print(position == null ? 'Unknown' : position.latitude.toString() + ', ' + position.longitude.toString());
     });
+  }*/
+  _handleTap(LatLng tappedPoint) {
+    print(tappedPoint);
+    setState(() {
+      _markers.add(Marker(
+        markerId: MarkerId(tappedPoint.toString()),
+        position: tappedPoint,
+      ));
+      print(_markers);
+    });
+  }
+
+  searchandNavigate() async {
+    try {
+      locationFromAddress(searchAddr).then((result) {
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(result[0].latitude, result[0].longitude),
+                zoom: 40.0)));
+
+        //  print(position == null ? 'Unknown' : position.latitude.toString() + ', ' + position.longitude.toString());
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void onMapCreated(controller) {
