@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kasemall/account/controller/google_map_controller.dart';
 import 'package:kasemall/login/login_screen.dart';
@@ -20,6 +21,7 @@ class _ProfileState extends State<Profile> {
   TextEditingController _gender = new TextEditingController();
   TextEditingController _birthdate = new TextEditingController();
   TextEditingController _address = new TextEditingController();
+  final map = new GGMap();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +57,13 @@ class _ProfileState extends State<Profile> {
                 decoration: InputDecoration(
                     labelText: "Address",
                     suffix: GestureDetector(
-                      onTap: () {
-                        Get.to(() => GGMap());
-                      },
-                      child:Icon(Icons.location_pin)
-                    )),
+                        onTap: () async {
+                          var _add = await Get.to(() => GGMap());
+                          setState(() {
+                           _address.text = _add;
+                          });
+                        },
+                        child: Icon(Icons.location_pin))),
                 controller: _address,
               ),
             ]),

@@ -27,7 +27,10 @@ class _GGMapState extends State<GGMap> {
   late final LocationService locationService = Get.put(LocationService());
   late String searchAddr;
   Set<Marker> _markers = {};
+  late double lat;
+  late double lng;
   //late List<Location> locations;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +44,15 @@ class _GGMapState extends State<GGMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () async {
+            Get.back(result: getAddress());
+            String? marker = await getAddress();
+            print(marker);
+          },
+        ),
+      ),
       body: Stack(children: <Widget>[
         GoogleMap(
           initialCameraPosition: CameraPosition(
@@ -91,6 +103,16 @@ class _GGMapState extends State<GGMap> {
       //  print(position == null ? 'Unknown' : position.latitude.toString() + ', ' + position.longitude.toString());
     });
   }*/
+  Future<String?> getAddress() async {
+    String? address;
+    //Marker marker = _markers.first;
+    List <Placemark> p = await placemarkFromCoordinates(lat,lng);
+    var first = p.first;
+    address =
+        '${first.administrativeArea}, ${first.subLocality}, ${first.subAdministrativeArea},${first.street}, ${first.name},${first.thoroughfare}, ${first.subThoroughfare}';
+    return address;
+  }
+
   _handleTap(LatLng tappedPoint) {
     print(tappedPoint);
     setState(() {
@@ -98,6 +120,8 @@ class _GGMapState extends State<GGMap> {
         markerId: MarkerId(tappedPoint.toString()),
         position: tappedPoint,
       ));
+      lat = tappedPoint.latitude;
+      lng = tappedPoint.longitude;
       print(_markers);
     });
   }
