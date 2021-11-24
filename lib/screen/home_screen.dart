@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:kasemall/login/login_screen.dart';
-import 'package:kasemall/shopping/shopping_screen.dart';
+import 'package:kasemall/screen/login_screen.dart';
+import 'package:kasemall/screen/shopping_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {

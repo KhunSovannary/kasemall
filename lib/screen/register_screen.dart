@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
 //import 'package:kasemall/login/login_api_service.dart';
-import 'package:kasemall/otp/otp_controller.dart';
-import 'package:kasemall/otp/otp_screen.dart';
+import 'package:kasemall/controller/otp_controller.dart';
+import 'package:kasemall/screen/otp_screen.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 //import 'package:sms_autofill/sms_autofill.dart';
 

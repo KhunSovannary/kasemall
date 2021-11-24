@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:kasemall/homepage/home_screen.dart';
+import 'package:kasemall/screen/home_screen.dart';
 import 'package:kasemall/model/seller_model.dart';
-import 'package:kasemall/shopping/shopping_screen.dart';
+import 'package:kasemall/screen/shopping_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {

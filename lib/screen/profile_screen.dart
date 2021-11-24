@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:kasemall/account/controller/google_map_controller.dart';
-import 'package:kasemall/login/login_screen.dart';
-import 'package:kasemall/shopping/shopping_screen.dart';
+import 'package:kasemall/controller/google_map_controller.dart';
+import 'package:kasemall/screen/login_screen.dart';
+import 'package:kasemall/screen/shopping_screen.dart';
 
 class Profile extends StatefulWidget {
   Profile({key, required this.title}) : super(key: key);

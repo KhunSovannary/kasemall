@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
-import 'package:kasemall/login/login_controller.dart';
+import 'package:kasemall/controller/login_controller.dart';
 //import 'package:kasemall/login/login_api_service.dart';
 
-import 'package:kasemall/register/register_screen.dart';
+import 'package:kasemall/screen/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {

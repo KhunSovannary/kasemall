@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:kasemall/account/profile_screen.dart';
-import 'package:kasemall/account/seller/seller_screen.dart';
-import 'package:kasemall/account/shop/shop_view.dart';
+import 'package:kasemall/screen/profile_screen.dart';
+import 'package:kasemall/screen/seller_screen.dart';
+import 'package:kasemall/screen/shop_view_screen.dart';
 //import 'dart:html';
-import 'homepage/home_screen.dart';
-import 'login/login_screen.dart';
+import 'screen/home_screen.dart';
+import 'screen/login_screen.dart';
 
 void main() {
   runApp(MyApp());

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kasemall/account/controller/updateshop_controller.dart';
+import 'package:kasemall/controller/updateshop_controller.dart';
 //import 'package:kasemall/account/image/image_viewer.dart';
-import 'package:kasemall/account/shop/shop_edit_screen.dart';
-import 'package:kasemall/account/shop/shop_repository.dart';
+import 'package:kasemall/screen/shop_edit_screen.dart';
+import 'package:kasemall/repository/shop_repository.dart';
 import 'package:kasemall/model/seller_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

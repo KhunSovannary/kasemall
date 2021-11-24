@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:kasemall/account/controller/updateshop_controller.dart';
+import 'package:kasemall/controller/updateshop_controller.dart';
 import 'package:kasemall/model/seller_model.dart';
 
 class ShopEditController extends GetxController {

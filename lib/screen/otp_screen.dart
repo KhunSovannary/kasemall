@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
-import 'package:kasemall/login/login_screen.dart';
+import 'package:kasemall/screen/login_screen.dart';
 import 'package:kasemall/model/user_model.dart';
-import 'package:kasemall/otp/otp_controller.dart';
+import 'package:kasemall/controller/otp_controller.dart';
 //import 'package:kasemall/otp/otp_api_service.dart';
-import 'package:kasemall/register/register_api_service.dart';
+import 'package:kasemall/controller/register_controller.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class OTP extends StatefulWidget {
