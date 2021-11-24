@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/controller/updateshop_controller.dart';
-import 'package:kasemall/account/image/image_viewer.dart';
+//import 'package:kasemall/account/image/image_viewer.dart';
 import 'package:kasemall/account/shop/shop_edit_screen.dart';
 import 'package:kasemall/account/shop/shop_repository.dart';
 import 'package:kasemall/model/seller_model.dart';
@@ -50,7 +50,7 @@ class _State extends State<myShop> {
             onPressed: () async {
               newSeller = await Get.to(() => myShopEdit(seller: seller));
               setState(() {
-                seller = newSeller;
+                //seller = newSeller;
               });
               
             },

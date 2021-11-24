@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/controller/seller_controller.dart';
 import 'package:kasemall/account/controller/updateshop_controller.dart';
-import 'package:kasemall/account/image/image_viewer.dart';
+//import 'package:kasemall/account/image/image_viewer.dart';
 import 'package:kasemall/account/shop/shop_edit_controller.dart';
 import 'package:kasemall/account/shop/shop_repository.dart';
 import 'package:kasemall/account/shop/shop_view.dart';
@@ -40,6 +40,7 @@ class _myShopEditState extends State<myShopEdit> {
     shopedit.address.value = "${widget.seller.address!}";
     shopedit.logo_image.value = "${widget.seller.logo_image}";
     shopedit.cover_image.value = "${widget.seller.cover_image!}";
+    sellerController.getDistricts("${seller.city_province_id}");
   }
 
   @override
@@ -138,7 +139,7 @@ class _myShopEditState extends State<myShopEdit> {
                     ),
                     value: "${seller.city_province_id}",
 
-                    items: controller.provinces
+                    items: sellerController.provinces
                         .map<DropdownMenuItem<String>>((dynamic provinces) {
                       return DropdownMenuItem<String>(
                         child: Text(provinces.default_name),
@@ -151,7 +152,7 @@ class _myShopEditState extends State<myShopEdit> {
                         String pro = val;
                         sellerController.getDistricts(pro);
                         setState(() {
-                          shopedit.districttxt.text = "";
+                        shopedit.districttxt.text = "";
                         });
                         //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
                       });
@@ -161,12 +162,8 @@ class _myShopEditState extends State<myShopEdit> {
               ),
               GetX<SellerController>(builder: (controller) {
                 return DropdownButtonFormField<String>(
-                  hint: Text("District"),
-                  onChanged: (String? district) {
-                    setState(() {
-                      shopedit.districttxt.text = district!;
-                    });
-                  },
+                 // hint: Text("District"),
+                 
                   //onSaved: (String? val) {},
                   decoration: InputDecoration(
                     labelText: "District",
@@ -176,14 +173,19 @@ class _myShopEditState extends State<myShopEdit> {
                     isDense: true, // Added this
                     // contentPadding: EdgeInsets.all(10),
                   ),
-                  value: null,// "${seller.district_id}",
-                  items: controller.districts
+                  value: null,
+                  items: sellerController.districts
                       .map<DropdownMenuItem<String>>((District districts) {
                     return DropdownMenuItem<String>(
                       child: Text(districts.default_name),
                       value: " ${districts.id}",
                     );
                   }).toList(),
+                  onChanged: (String? district) {
+                    setState(() {
+                      shopedit.districttxt.text = district!;
+                    });
+                  },
                 );
               }),
 
