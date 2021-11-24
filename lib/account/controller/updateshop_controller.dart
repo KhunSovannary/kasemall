@@ -59,7 +59,7 @@ class UpdateShop extends GetxController {
       request.headers.addAll(headers);
       request.fields['status'] = status.value;
       request.fields['shop_id'] = id.value;
-      request.fields['name'] = "Little";
+      request.fields['name'] = name.value;
       request.fields['phone'] = phone.value;
       request.fields['membership_id'] = membership_id.value;
       request.fields['country_id'] = '1';

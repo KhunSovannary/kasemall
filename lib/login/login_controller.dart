@@ -34,7 +34,9 @@ class LoginController extends GetxController {
         print(jsonData!['data']['shop']);
         sharedPreferences.setString("token", jsonData["data"]["token"]);
         sharedPreferences.setString(
-            "shop", (jsonData['data']['user']).toString());
+            "user", jsonEncode((jsonData['data']['user'])));
+        String user = sharedPreferences.getString('user')!;
+       
         //seller.fetchSeller(jsonData['data']['shop']);
         // print(jsonData['data']['shop']['id']);
 

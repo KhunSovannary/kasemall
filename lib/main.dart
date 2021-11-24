@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kasemall/account/profile_screen.dart';
 import 'package:kasemall/account/seller/seller_screen.dart';
+import 'package:kasemall/account/shop/shop_view.dart';
 //import 'dart:html';
 import 'homepage/home_screen.dart';
 import 'login/login_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
       ),
-      home: Profile(title:"Your Information"),
+      home: MyHomePage(),
       // home: MyHomePage(),
     );
   }

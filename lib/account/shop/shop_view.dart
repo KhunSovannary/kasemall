@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/controller/updateshop_controller.dart';
 import 'package:kasemall/account/image/image_viewer.dart';
-import 'package:kasemall/account/shop_repository.dart';
+import 'package:kasemall/account/shop/shop_edit_screen.dart';
+import 'package:kasemall/account/shop/shop_repository.dart';
 import 'package:kasemall/model/seller_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,14 +20,15 @@ class _State extends State<myShop> {
   bool clicked = false;
   Color c = Colors.black;
   TextEditingController _shopname = new TextEditingController();
-  Seller seller = new Seller();
+  late Seller seller;
+  //late Seller newSeller;
   late UpdateShop update;
-
+  late var newSeller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _shopname.text = "";
+    //_shopname.text = "";
 
     // UpdateShop updatecon = UpdateShop(seller:this.seller);
     //_shopname.addListener(_printLatestValue);
@@ -43,12 +45,26 @@ class _State extends State<myShop> {
         leading: BackButton(
           color: Colors.green,
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              newSeller = await Get.to(() => myShopEdit(seller: seller));
+              setState(() {
+                seller = newSeller;
+              });
+              
+            },
+            icon: Icon(Icons.edit),
+            color: Colors.green,
+          )
+        ],
       ),
       body: Card(
         child: FutureBuilder<Seller>(
           future: shopRepository.getShopInfo(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              seller = snapshot.data!;
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -57,41 +73,16 @@ class _State extends State<myShop> {
                     TextFormField(
                         decoration: InputDecoration(
                           labelText: "Shop Name",
-                          suffix: GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  seller = snapshot.data!;
-                                  clicked = !clicked;
-                    
-                                }
-
-                                    //print(_shopname);
-                                    /*if(_shopname!=null){
-                                      updateShop(snapshot.data!,
-                                        name: _shopname.text);*/
-
-                                    /*(updateShop(snapshot.data!,
-                                        name: _shopname.text);*/
-                                    );
-                              },
-                              child: Icon(Icons.edit,
-                                  color:
-                                      clicked ? Colors.green : Colors.black)),
                         ),
                         /* onSaved: (text) {
                             _shopname.text = text!;
                           },*/
                         //initialValue: snapshot.data!.name,
                         controller: TextEditingController(
-                            text: _shopname.text != ""
-                                ? seller.name
-                                : "${snapshot.data!.id!}"),
-                        onChanged: (text) {
-                          seller.name = text;
-                          print(seller.name);
-                        },
+                            text:  seller.name??"${snapshot.data!.name!}"),
+
                         //controller: _shopname,
-                        readOnly: clicked ? false : true),
+                        readOnly: true),
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: "Membership",
@@ -151,7 +142,7 @@ class _State extends State<myShop> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           print(seller.name);
           setState(() {
@@ -169,34 +160,7 @@ class _State extends State<myShop> {
               });
         },
         child: Icon(Icons.arrow_forward),
-      ),
-    );
-  }
-
-  Future<void> _showMyDialog(BuildContext context, String message) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Submit Failed !'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+      ),*/
     );
   }
 }

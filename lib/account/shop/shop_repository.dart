@@ -7,14 +7,11 @@ import 'package:kasemall/shopping/shopping_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopRepository {
-
-
-  Future<Seller>? getShopInfo() async {
-    String user = '';
+  Future<Seller> getShopInfo() async {
+    String? user = '';
     final preferences = await SharedPreferences.getInstance();
-     user = preferences.getString('user')!;
-    
-
+    user =  preferences.getString('user')!;
+  
     return Seller.fromJson(jsonDecode(user)['shop']);
   }
 }

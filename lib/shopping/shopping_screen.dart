@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/account/profile_screen.dart';
 import 'package:kasemall/account/seller/seller_screen.dart';
-import 'package:kasemall/account/shop_view.dart';
+import 'package:kasemall/account/shop/shop_view.dart';
 import 'package:kasemall/homepage/home_screen.dart';
 import 'package:kasemall/login/login_screen.dart';
 import 'package:kasemall/model/product_model.dart';
@@ -64,38 +64,40 @@ class _ShopState extends State<Shop> {
                 InkWell(
                     child: Text("Account Setting"),
                     onTap: () async {
-                      
                       final preferences = await SharedPreferences.getInstance();
                       String? shop = preferences.getString('user');
-                      
+
                       // print(seller.name);
                       /*if (shop != "") {   Get.to(() => myShop());
                       } else {*/
-                        Get.defaultDialog(
-                          title: "Do you want to be a seller?",
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              InkWell(
-                                child: Text("Yes"),
-                                onTap: () {
-                                  Get.to(
-                                      () => Seller(title: "Become a seller"));
-                                },
-                              ),
-                              SizedBox(width: 50),
-                              InkWell(
-                                child: Text("No"),
-                                onTap: () {
-                                  Get.to(() => Profile(
-                                      title: "Fill in your information"));
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      
+                      Get.defaultDialog(
+                        title: "Do you want to be a seller?",
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              child: Text("Yes"),
+                              onTap: () {
+                                print(jsonDecode(shop!)["shop"]);
+                                
+                                Get.to(() => myShop());
+                                /*Get.to(
+
+                                      () => Seller(title: "Become a seller"));*/
+                              },
+                            ),
+                            SizedBox(width: 50),
+                            InkWell(
+                              child: Text("No"),
+                              onTap: () {
+                                Get.to(() =>
+                                    Profile(title: "Fill in your information"));
+                              },
+                            ),
+                          ],
+                        ),
+                      );
                     }),
                 SizedBox(height: 20),
                 Row(children: [
@@ -187,7 +189,8 @@ class _ShopState extends State<Shop> {
 
   void logoutUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('phone');
+    //prefs.remove('phone');
+    prefs.clear();
     Get.to(() => Login());
   }
 }
