@@ -27,6 +27,9 @@ class _myShopEditState extends State<myShopEdit> {
   late UpdateShop updateShop = Get.put(UpdateShop(seller));
   final sellerController = Get.put(SellerController());
 
+  // use local state
+  String? _districtId;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -151,10 +154,14 @@ class _myShopEditState extends State<myShopEdit> {
                         shopedit.city_provincetxt.text = val!;
                         String pro = val;
                         sellerController.getDistricts(pro);
+                        // wrong
                         setState(() {
                         shopedit.districttxt.text = "";
                         });
-                        //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
+
+                        //
+                        _districtId = null;
+                        //_cityprovince = provinces.where((provincegi)=>"${province.id}"==pro).toList();
                       });
                     },
                   );
@@ -164,6 +171,7 @@ class _myShopEditState extends State<myShopEdit> {
                 return DropdownButtonFormField<String>(
                  // hint: Text("District"),
                  
+    
                   //onSaved: (String? val) {},
                   decoration: InputDecoration(
                     labelText: "District",
@@ -175,10 +183,10 @@ class _myShopEditState extends State<myShopEdit> {
                   ),
                   value: null,
                   items: sellerController.districts
-                      .map<DropdownMenuItem<String>>((District districts) {
+                      .map<DropdownMenuItem<String>>((District district) {
                     return DropdownMenuItem<String>(
-                      child: Text(districts.default_name),
-                      value: " ${districts.id}",
+                      child: Text(district.default_name),
+                      value: district.id.toString(),
                     );
                   }).toList(),
                   onChanged: (String? district) {
@@ -213,7 +221,7 @@ class _myShopEditState extends State<myShopEdit> {
               Text("Cover"),
               Center(
                 child: Image(
-                  image: NetworkImage("${shopedit.logo_image}"),
+                  image: NetworkImage("${shopedit.cover_image}"),
                   fit: BoxFit.fitWidth,
                 ),
               )

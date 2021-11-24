@@ -15,8 +15,10 @@ class LoginController extends GetxController {
     try {
       loginProcess(true);
       final Map<String, dynamic> data = {
-        'phone': phoneNumber,
-        'password': password,
+        'phone': '077706498',
+        // 'phone': phoneNumber,
+        // 'password': password,
+        'password': '22122001',
         'fcm_token': "test",
         'device_type': "Android",
       };
@@ -36,7 +38,7 @@ class LoginController extends GetxController {
         sharedPreferences.setString(
             "user", jsonEncode((jsonData['data']['user'])));
         String user = sharedPreferences.getString('user')!;
-       
+
         //seller.fetchSeller(jsonData['data']['shop']);
         // print(jsonData['data']['shop']['id']);
 
