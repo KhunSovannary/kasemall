@@ -142,7 +142,7 @@ class _myShopEditState extends State<myShopEdit> {
                       //contentPadding: EdgeInsets.all(10),
                     ),
                     value: "${seller.city_province_id}",
-
+                    
                     items: sellerController.provinces
                         .map<DropdownMenuItem<String>>((dynamic provinces) {
                       return DropdownMenuItem<String>(

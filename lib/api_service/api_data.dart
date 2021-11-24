@@ -8,16 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Province {
-  final int id;
-  final String name;
-  final String default_name;
+  int id;
+  String name;
+   String default_name;
 
   Province({
     required this.id,
     required this.name,
     required this.default_name,
   });
-
+  
   factory Province.createData(Map<String, dynamic> json) {
     return Province(
       id: json['id'],
