@@ -156,12 +156,12 @@ class _myShopEditState extends State<myShopEdit> {
                         sellerController.getDistricts(pro);
                         // wrong
                         setState(() {
-                        shopedit.districttxt.text = "";
+                          shopedit.districttxt.text = "";
                         });
 
                         //
                         _districtId = null;
-                        //_cityprovince = provinces.where((provincegi)=>"${province.id}"==pro).toList();
+                        //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
                       });
                     },
                   );
@@ -169,9 +169,12 @@ class _myShopEditState extends State<myShopEdit> {
               ),
               GetX<SellerController>(builder: (controller) {
                 return DropdownButtonFormField<String>(
-                 // hint: Text("District"),
-                 
-    
+                  //hint: Text("District"),
+                  onChanged: (String? district) {
+                    setState(() {
+                      _districtId = district!;
+                    });
+                  },
                   //onSaved: (String? val) {},
                   decoration: InputDecoration(
                     labelText: "District",
@@ -181,19 +184,14 @@ class _myShopEditState extends State<myShopEdit> {
                     isDense: true, // Added this
                     // contentPadding: EdgeInsets.all(10),
                   ),
-                  value: null,
-                  items: sellerController.districts
+                  value: _districtId ?? null, // "${seller.district_id}",
+                  items: controller.districts
                       .map<DropdownMenuItem<String>>((District district) {
                     return DropdownMenuItem<String>(
                       child: Text(district.default_name),
                       value: district.id.toString(),
                     );
                   }).toList(),
-                  onChanged: (String? district) {
-                    setState(() {
-                      shopedit.districttxt.text = district!;
-                    });
-                  },
                 );
               }),
 
