@@ -27,6 +27,9 @@ class _myShopEditState extends State<myShopEdit> {
   late UpdateShop updateShop = Get.put(UpdateShop(seller));
   final sellerController = Get.put(SellerController());
 
+  // use local state
+  String? _districtId;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -150,9 +153,13 @@ class _myShopEditState extends State<myShopEdit> {
                         shopedit.city_provincetxt.text = val!;
                         String pro = val;
                         sellerController.getDistricts(pro);
+                        // wrong
                         setState(() {
                           shopedit.districttxt.text = "";
                         });
+
+                        //
+                        _districtId = null;
                         //_cityprovince = provinces.where((province)=>"${province.id}"==pro).toList();
                       });
                     },
@@ -164,7 +171,7 @@ class _myShopEditState extends State<myShopEdit> {
                   hint: Text("District"),
                   onChanged: (String? district) {
                     setState(() {
-                      shopedit.districttxt.text = district!;
+                      _districtId = district!;
                     });
                   },
                   //onSaved: (String? val) {},
@@ -176,12 +183,12 @@ class _myShopEditState extends State<myShopEdit> {
                     isDense: true, // Added this
                     // contentPadding: EdgeInsets.all(10),
                   ),
-                  value: null,// "${seller.district_id}",
+                  value: _districtId ?? null, // "${seller.district_id}",
                   items: controller.districts
-                      .map<DropdownMenuItem<String>>((District districts) {
+                      .map<DropdownMenuItem<String>>((District district) {
                     return DropdownMenuItem<String>(
-                      child: Text(districts.default_name),
-                      value: " ${districts.id}",
+                      child: Text(district.default_name),
+                      value: district.id.toString(),
                     );
                   }).toList(),
                 );
