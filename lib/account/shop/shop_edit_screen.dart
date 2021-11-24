@@ -44,6 +44,7 @@ class _myShopEditState extends State<myShopEdit> {
     shopedit.logo_image.value = "${widget.seller.logo_image}";
     shopedit.cover_image.value = "${widget.seller.cover_image!}";
     sellerController.getDistricts("${seller.city_province_id}");
+    _districtId ="${widget.seller.district_id}";
   }
 
   @override
