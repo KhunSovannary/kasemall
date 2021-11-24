@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kasemall/screen/profile_screen.dart';
 import 'package:kasemall/screen/seller_screen.dart';
 import 'package:kasemall/screen/shop_view_screen.dart';
+import 'package:kasemall/features/seller/views/add_seller_screen.dart';
 //import 'dart:html';
 import 'screen/home_screen.dart';
 import 'screen/login_screen.dart';
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
       ),
-      home: MyHomePage(),
-      // home: MyHomePage(),
+      // home: Login(),
+      home: AddSellerScreen(),
     );
   }
 }
