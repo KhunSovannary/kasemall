@@ -28,7 +28,7 @@ class _State extends State<myShop> {
   late var newSeller;
   SellerController sellerController = Get.put(SellerController());
   late Province p;
-  //late District? d;
+  late District d;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,6 +41,8 @@ class _State extends State<myShop> {
             id: seller.city_province_id!,
             name: seller.city!,
             default_name: seller.city!);
+        d = new District(
+            id: seller.district_id!, default_name: seller.district!);
       });
     });
 
@@ -78,10 +80,22 @@ class _State extends State<myShop> {
                     .where((Province province) => province.id == p.id)
                     .first;
                 seller.city = p.default_name;
+                sellerController.getDistricts("${p.id}}").whenComplete((){
+                  setState(() {
+                    d.id = seller.district_id!;
+                    d = sellerController.districts
+                    .where((District district) => district.id == d.id)
+                    .first;
+                    seller.district = d.default_name;
+                  });
+                   
+                });});
+                
+
                 print(newSeller.city);
                 print(p.id);
                 print(seller.city);
-              });
+              
             },
             icon: Icon(Icons.edit),
             color: Colors.green,
@@ -133,21 +147,23 @@ class _State extends State<myShop> {
               decoration: InputDecoration(
                 labelText: "City/Province",
               ),
-              initialValue: seller.city,
+              controller: TextEditingController(text: seller.city,
+                ),
               readOnly: true,
             ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: "District",
               ),
-              initialValue: seller.district,
+              controller: TextEditingController(text: seller.district,
+              ),
               readOnly: true,
             ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: "Address",
               ),
-              initialValue: seller.address,
+              controller: TextEditingController(text: seller.address),
               readOnly: true,
             ),
             SizedBox(height: 10),
@@ -193,4 +209,4 @@ class _State extends State<myShop> {
   }
 }
 
-class Controller {}
+

@@ -38,13 +38,13 @@ class _myShopEditState extends State<myShopEdit> {
     shopedit.shopname.value = widget.seller.name!;
     shopedit.membership_id.value = "${widget.seller.membership_id!}";
     shopedit.supplier_id.value = "${widget.seller.supplier_id!}";
-    shopedit.city_province_id.value = "${widget.seller.membership_id!}";
-    shopedit.district.value = "${widget.seller.district_id!}";
+    shopedit.city_province_id.value = "${widget.seller.city_province_id!}";
+    shopedit.district_id.value = "${widget.seller.district_id!}";
     shopedit.address.value = "${widget.seller.address!}";
     shopedit.logo_image.value = "${widget.seller.logo_image}";
     shopedit.cover_image.value = "${widget.seller.cover_image!}";
     sellerController.getDistricts("${seller.city_province_id}");
-    _districtId ="${widget.seller.district_id}";
+    _districtId = "${widget.seller.district_id}";
   }
 
   @override
@@ -71,7 +71,7 @@ class _myShopEditState extends State<myShopEdit> {
                       int.parse(shopedit.membership_id.value);
                   seller.city_province_id =
                       int.parse(shopedit.city_province_id.value);
-                  seller.district_id = int.parse(shopedit.district.value);
+                  seller.district_id = int.parse(shopedit.district_id.value);
                   seller.address = shopedit.address.value;
                   updateShop = Get.put(UpdateShop(seller));
                 });
@@ -142,7 +142,7 @@ class _myShopEditState extends State<myShopEdit> {
                       //contentPadding: EdgeInsets.all(10),
                     ),
                     value: "${seller.city_province_id}",
-                    
+
                     items: sellerController.provinces
                         .map<DropdownMenuItem<String>>((dynamic provinces) {
                       return DropdownMenuItem<String>(
@@ -174,6 +174,7 @@ class _myShopEditState extends State<myShopEdit> {
                   onChanged: (String? district) {
                     setState(() {
                       _districtId = district!;
+                      shopedit.districttxt.text = _districtId!;
                     });
                   },
                   //onSaved: (String? val) {},

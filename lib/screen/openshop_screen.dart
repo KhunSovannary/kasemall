@@ -8,6 +8,7 @@ import 'package:kasemall/controller/seller_controller.dart';
 //import 'package:image_picker/image_picker.dart';
 //import 'package:kasemall/account/files_page.dart';
 import 'package:kasemall/api_service/api_data.dart';
+import 'package:kasemall/model/shop_model.dart';
 import 'package:kasemall/screen/login_screen.dart';
 import 'package:kasemall/screen/shopping_screen.dart';
 import 'dart:async';
@@ -46,6 +47,7 @@ class _SellerState extends State<Seller> {
 
   final imageController2 = Get.put(ImageController());
   //String _filename;
+  ShopModel shopModel = new ShopModel();
   String pro = '1';
   String? _membership;
   String? _supplier;
@@ -151,7 +153,7 @@ class _SellerState extends State<Seller> {
                 DropdownButtonFormField(
                   hint: Text("Memebership"),
                   onChanged: (String? val) {
-                    _membership = val;
+                    shopModel.membership_id = val;
                   },
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -173,7 +175,7 @@ class _SellerState extends State<Seller> {
                 DropdownButtonFormField(
                   hint: Text("Supplier"),
                   onChanged: (String? val) {
-                    _supplier = val;
+                    shopModel.supplier_id = val;
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -181,7 +183,7 @@ class _SellerState extends State<Seller> {
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(10),
                   ),
-                  value: _supplier,
+                  value: shopModel.supplier_id,
                   items: <String>['1', '2']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -205,7 +207,7 @@ class _SellerState extends State<Seller> {
                         contentPadding: EdgeInsets.all(10),
                       ),
                       value: null,
-                      items: controller.provinces
+                      items: sellerController.provinces
                           .map<DropdownMenuItem<String>>((dynamic provinces) {
                         return DropdownMenuItem<String>(
                           child: Text(provinces.default_name),
@@ -214,7 +216,7 @@ class _SellerState extends State<Seller> {
                       }).toList(),
                       onChanged: (String? val) {
                         setState(() {
-                          _cityprovince = val;
+                          shopModel.city_province_id = val;
                           String pro = val!;
                           sellerController.getDistricts(pro);
                           setState(() {
@@ -231,7 +233,7 @@ class _SellerState extends State<Seller> {
                       hint: Text("District"),
                       onChanged: (String? district) {
                         setState(() {
-                          _district = district;
+                          shopModel.district_id = district;
                         });
                       },
                       onSaved: (String? val) {},
@@ -242,7 +244,7 @@ class _SellerState extends State<Seller> {
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(10),
                       ),
-                      value: _district ?? null,
+                      value: _district  ?? null,
                       items: sellerController.districts
                           .map<DropdownMenuItem<String>>((District districts) {
                         return DropdownMenuItem<String>(
@@ -256,7 +258,7 @@ class _SellerState extends State<Seller> {
                   hint: Text("Address"),
                   onChanged: (String? val) {
                     setState(() {
-                      _address = val;
+                      shopModel.address = val;
                     });
                   },
                   decoration: InputDecoration(
@@ -266,7 +268,7 @@ class _SellerState extends State<Seller> {
                     isDense: true, // Added this
                     contentPadding: EdgeInsets.all(10),
                   ),
-                  value: _address,
+                  value: shopModel.address,
                   items: <String>['Address1', 'Address2']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -351,14 +353,13 @@ class _SellerState extends State<Seller> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           setState(() {
-            logo = file.File(imageController.selectedImagePath.value);
-            cover = file.File(imageController1.selectedImagePath.value);
+            shopModel.logo_image = file.File(imageController.selectedImagePath.value);
+            shopModel.cover_image = file.File(imageController1.selectedImagePath.value);
           });
           print("Done");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           String? phone = prefs.getString('phone');
-          openShop(_shopname.text, phone!, _membership!, _cityprovince!,
-                  _district!, _supplier!, _address!, logo, cover)
+          openShop(shopModel)
               .then((response) => {
                         if (!response.status)
                           {

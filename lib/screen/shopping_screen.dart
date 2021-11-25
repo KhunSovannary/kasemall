@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kasemall/screen/profile_screen.dart';
-import 'package:kasemall/screen/seller_screen.dart';
+import 'package:kasemall/screen/openshop_screen.dart';
 import 'package:kasemall/screen/shop_view_screen.dart';
 import 'package:kasemall/screen/home_screen.dart';
 import 'package:kasemall/screen/login_screen.dart';
@@ -79,12 +79,11 @@ class _ShopState extends State<Shop> {
                             InkWell(
                               child: Text("Yes"),
                               onTap: () {
-                                print(jsonDecode(shop!)["shop"]);
-                                
-                                Get.to(() => myShop());
-                                /*Get.to(
+                                print(jsonDecode(shop!)["shop"]['id']);
+                               // if(jsonDecode(shop)["shop"]['id'])
+                                Get.to(
 
-                                      () => Seller(title: "Become a seller"));*/
+                                      () =>Seller(title: 'seller'));
                               },
                             ),
                             SizedBox(width: 50),

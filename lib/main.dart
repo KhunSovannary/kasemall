@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kasemall/screen/profile_screen.dart';
-import 'package:kasemall/screen/seller_screen.dart';
+import 'package:kasemall/screen/openshop_screen.dart';
 import 'package:kasemall/screen/shop_view_screen.dart';
 import 'package:kasemall/features/seller/views/add_seller_screen.dart';
 //import 'dart:html';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // home: Login(),
-      home: AddSellerScreen(),
+      home: MyHomePage(),
     );
   }
 }

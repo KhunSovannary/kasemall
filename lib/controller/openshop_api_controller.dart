@@ -6,19 +6,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kasemall/model/response_model.dart';
+import 'package:kasemall/model/shop_model.dart';
 //import 'package:kasemall/model/seller_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<ResponseModel> openShop(
-    String name,
-    String phone,
-    String membership_id,
-    String city_province_id,
-    String district_id,
-    String supplier_id,
-    String address,
-    file.File logo_image,
-    file.File cover_image) async {
+  ShopModel shop) async {
   final sharePreference = await SharedPreferences.getInstance();
   final token = sharePreference.get('token');
   try {
@@ -30,22 +23,22 @@ Future<ResponseModel> openShop(
       'Authorization': 'Bearer $token',
     };
     request.headers.addAll(headers);
-    print(address);
-    request.fields['name'] = name;
-    request.fields['phone'] = phone;
-    request.fields['membership_id'] = membership_id;
+    print(shop.address);
+    request.fields['name'] = shop.name!;
+    request.fields['phone'] = shop.phone!;
+    request.fields['membership_id'] = shop.membership_id!;
     request.fields['country_id'] = '1';
-    request.fields['city_province_id'] = city_province_id;
+    request.fields['city_province_id'] = shop.city_province_id!;
     request.fields['lat'] = "1";
     request.fields['lng'] = "1";
     request.fields['shop_category_id'] = "1";
-    request.fields['district_id'] = district_id;
-    request.fields['supplier_id'] = city_province_id;
-    request.fields['address'] = address;
+    request.fields['district_id'] = shop.district_id!;
+    request.fields['supplier_id'] = shop.city_province_id!;
+    request.fields['address'] = shop.address!;
     var shopLogo =
-        await http.MultipartFile.fromPath("logo_image", logo_image.path);
+        await http.MultipartFile.fromPath("logo_image", shop.logo_image!.path);
     var shopCover =
-        await http.MultipartFile.fromPath("cover_image", cover_image.path);
+        await http.MultipartFile.fromPath("cover_image", shop.cover_image!.path);
     /*body: jsonEncode(<String, dynamic>{
         'name': name,
         'phone': phone,

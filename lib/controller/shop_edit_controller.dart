@@ -15,7 +15,7 @@ class ShopEditController extends GetxController {
   var membership_id= ''.obs;
   var supplier_id = ''.obs;
   var city_province_id = ''.obs;
-  var district = ''.obs;
+  var district_id = ''.obs;
   var address = ''.obs;
   var logo_image = ''.obs;
   var cover_image = ''.obs;
@@ -33,9 +33,9 @@ class ShopEditController extends GetxController {
     city_provincetxt.addListener(() {
       city_province_id.value = city_provincetxt.text;
     });
-   /* districttxt.addListener(() {
-      shopname.value = shopnametxt.text;
-    });
+     districttxt.addListener(() {
+      district_id.value = districttxt.text;
+    });/*
     membershiptxt.addListener(() {
       shopname.value = shopnametxt.text;
     });

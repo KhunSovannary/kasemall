@@ -88,9 +88,9 @@ class Province {
 // }
 
 class District {
-  final int id;
+   int id;
   // final String name;
-  final String default_name;
+   String default_name;
 
   District({
     required this.id,

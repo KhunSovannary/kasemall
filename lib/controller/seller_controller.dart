@@ -36,7 +36,7 @@ class SellerController extends GetxController {
 
   bool get isGetDistrict => isLoadDistrict.value;
 
-  void getCities() async {
+   getCities() async {
     final sharePreference = await SharedPreferences.getInstance();
     final token = sharePreference.get('token');
     print('city');
@@ -62,7 +62,7 @@ class SellerController extends GetxController {
     }
   }
 
-  void getDistricts(String districtId) async {
+   getDistricts(String districtId) async {
     final sharePreference = await SharedPreferences.getInstance();
     final token = sharePreference.get('token');
     districts.value = [];
