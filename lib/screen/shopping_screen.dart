@@ -80,10 +80,11 @@ class _ShopState extends State<Shop> {
                               child: Text("Yes"),
                               onTap: () {
                                 print(jsonDecode(shop!)["shop"]['id']);
-                               // if(jsonDecode(shop)["shop"]['id'])
-                                Get.to(
-
-                                      () =>Seller(title: 'seller'));
+                                int? id = jsonDecode(shop!)["shop"]['id'];
+                                if (id == null)
+                                  Get.to(() => Seller(title: 'seller'));
+                                else
+                                  Get.to(() => myShop());
                               },
                             ),
                             SizedBox(width: 50),
