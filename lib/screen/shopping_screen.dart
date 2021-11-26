@@ -21,10 +21,10 @@ class Shop extends StatefulWidget {
 
 class _ShopState extends State<Shop> {
   sell.Seller seller = new sell.Seller();
-  List<Product>? products = [
+  /*List<Product>? products = [
     Product(1, "Juice", 2.5),
     Product(2, "Grape", 3.4)
-  ];
+  ];*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,9 +168,9 @@ class _ShopState extends State<Shop> {
             ),
             Card(
                 color: Colors.green[100],
-                child: CarouselSlider(
+                /*child: CarouselSlider(
                   options: CarouselOptions(),
-                  items: products!
+                  /*items: products!
                       .map(
                         (Product p) => Column(children: [
                           Text("Product:${p.id!}"),
@@ -181,8 +181,8 @@ class _ShopState extends State<Shop> {
                           SizedBox(height: 2),
                         ]),
                       )
-                      .toList(),
-                )),
+                      .toList(),*/
+                ))*/),
           ]),
         ));
   }
