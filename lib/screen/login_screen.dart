@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("lib/assets/logo1.jpg")),
+              //Image(image: AssetImage("lib/assets/logo1.jpg")),
               SizedBox(height: 30),
               TextFormField(
                 controller: _phone,

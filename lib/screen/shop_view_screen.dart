@@ -168,7 +168,7 @@ class _State extends State<myShop> {
             ),
             SizedBox(height: 10),
             Text("Logo"),
-            Center(
+            /*Center(
               child: Image(
                 image: NetworkImage((seller.logo_image)!),
                 fit: BoxFit.fitWidth,
@@ -181,7 +181,7 @@ class _State extends State<myShop> {
                 image: NetworkImage((seller.cover_image)!),
                 fit: BoxFit.fitWidth,
               ),
-            )
+            )*/
           ],
         ),
       )),

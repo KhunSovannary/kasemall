@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("lib/assets/logo1.jpg")),
+              Image.asset("lib/assets/logo1.jpg"),
               SizedBox(height: 20),
               Text("Welcome To KaseMall"),
             ]),

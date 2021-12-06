@@ -48,12 +48,12 @@ class _ShopState extends State<Shop> {
             color: Colors.white,
             child: ListView(
               children: [
-                Container(
+               /* Container(
                   height: 100,
                   width: 100,
                   child: Image(
                       image: AssetImage("lib/assets/profile_default.png")),
-                ),
+                ),*/
                 SizedBox(
                   height: 50,
                 ),
@@ -141,7 +141,7 @@ class _ShopState extends State<Shop> {
                   width: double.infinity,
                   child: CarouselSlider(
                     options: CarouselOptions(),
-                    items: <Widget>[
+                    items:<Widget>[/*
                       Image(
                           image: AssetImage(
                             "lib/assets/image1.jpg",
@@ -156,7 +156,7 @@ class _ShopState extends State<Shop> {
                           image: AssetImage(
                             "lib/assets/image3.jpg",
                           ),
-                          fit: BoxFit.cover),
+                          fit: BoxFit.cover),*/
                       /*Image.asset("lib/assets/image2.jpg",
                       fit: BoxFit.cover,),
                       Image.asset("/lib/assets/image3.jpg",
